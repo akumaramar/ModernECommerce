@@ -30,5 +30,15 @@ namespace CatalogService.Business
         {
             return _productRepository.Find(id);
         }
+
+        public ProductModel Update(ProductModel productModel)
+        {
+            return _productRepository.Update(productModel);
+        }
+
+        public void Delete(Guid id)
+        {
+            _productRepository.Delete(id);
+        }
     }
 }

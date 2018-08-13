@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ngonzalez.Genfu" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CatelogService.Model\CatelogService.Model.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
   </ItemGroup>

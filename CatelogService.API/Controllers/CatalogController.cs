@@ -77,5 +77,36 @@ namespace CatelogService.API.Controllers
 
         }
 
+        [HttpPut]
+        [ProducesResponseType(204)]
+        public IActionResult Update(ProductDto productDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ProductModel productModel = _mapper.Map<ProductModel>(productDto);
+
+            // Update Product
+            productModel = _productBusiness.Update(productModel);
+
+            return NoContent(); 
+
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(Guid id)
+        {
+            if(_productBusiness.GetById(id) == null)
+            {
+                return NotFound();
+            }
+
+            _productBusiness.Delete(id);
+
+            return NoContent();
+        }
+
     }
 }

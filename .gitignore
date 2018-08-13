@@ -19,3 +19,5 @@
 /DAL/obj
 /ModernECommerce.Commaon/bin/Debug/netcoreapp2.1
 /ModernECommerce.Commaon/obj
+/.vs/ModernECommerce/DesignTimeBuild
+/.vs/ModernECommerce/v15/Server/sqlite3

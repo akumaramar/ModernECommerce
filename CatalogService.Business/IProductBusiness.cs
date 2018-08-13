@@ -12,5 +12,9 @@ namespace CatalogService.Business
         ProductModel Add(ProductModel product);
 
         ProductModel GetById(Guid id);
+
+        ProductModel Update(ProductModel productModel);
+
+        void Delete(Guid id);
     }
 }

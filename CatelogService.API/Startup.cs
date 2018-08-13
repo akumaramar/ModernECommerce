@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CatalogService.Business;
 using CatelogService.DAL;
+using CatelogService.DAL.FakeDataProvider;
 using CatelogService.DAL.InMemoryForTesting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,7 +46,7 @@ namespace CatelogService.API
 
             // Set Product Dependencies
             services.AddTransient<IProductBusiness, ProductBusiness>();
-            services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+            services.AddSingleton<IProductRepository, GenFuProductRepository>();
 
             // Add Automapping
             services.AddAutoMapper();
