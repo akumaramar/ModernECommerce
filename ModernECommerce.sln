@@ -27,9 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatelogService.Model", "Cat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatelogService.DAL", "CatelogService.DAL\CatelogService.DAL.csproj", "{D5CE1C48-F921-4BCC-B888-059B403043A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Business", "CatalogService.Business\CatalogService.Business.csproj", "{06BAC6FD-2827-40A2-9E71-D3C47B3148DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.Business", "CatalogService.Business\CatalogService.Business.csproj", "{06BAC6FD-2827-40A2-9E71-D3C47B3148DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernECommerce.Common", "ModernECommerce.Commaon\ModernECommerce.Common.csproj", "{49B1A0A1-C1AC-45BD-9C14-C958BC3739F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernECommerce.Common", "ModernECommerce.Commaon\ModernECommerce.Common.csproj", "{49B1A0A1-C1AC-45BD-9C14-C958BC3739F3}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{377059A0-999D-4B4B-B5E4-B6CDC9879B33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{49B1A0A1-C1AC-45BD-9C14-C958BC3739F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49B1A0A1-C1AC-45BD-9C14-C958BC3739F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49B1A0A1-C1AC-45BD-9C14-C958BC3739F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{377059A0-999D-4B4B-B5E4-B6CDC9879B33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{377059A0-999D-4B4B-B5E4-B6CDC9879B33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{377059A0-999D-4B4B-B5E4-B6CDC9879B33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{377059A0-999D-4B4B-B5E4-B6CDC9879B33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
