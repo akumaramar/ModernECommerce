@@ -2,31 +2,4 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/CatalogService.Business/bin/Debug/netcoreapp2.1
-/CatalogService.Business/obj/Debug/netcoreapp2.1
-/CatalogService.Business/obj
-/CatelogService.API/bin/Debug/netcoreapp2.1
-/CatelogService.API/obj
-/CatelogService.DAL/bin/Debug/netcoreapp2.1
-/CatelogService.DAL/obj
-/CatelogService.DTO/bin/Debug/netcoreapp2.1
-/CatelogService.DTO/obj
-/CatelogService.Model/bin/Debug/netcoreapp2.1
-/CatelogService.Model/obj
-/ConsoleTest/bin/Debug/netcoreapp2.1
-/ConsoleTest/obj
-/DAL/bin/Debug/netcoreapp2.1
-/DAL/obj
-/ModernECommerce.Commaon/bin/Debug/netcoreapp2.1
-/ModernECommerce.Commaon/obj
 /.vs/ModernECommerce/DesignTimeBuild
-/.vs/ModernECommerce/v15/Server/sqlite3
-/obj
-/bin
-/CatalogService.Business/bin/Release/netcoreapp2.1
-/CatelogService.API/bin/Release/netcoreapp2.1
-/CatelogService.DAL/bin/Release/netcoreapp2.1
-/CatelogService.DTO/bin/Release/netcoreapp2.1
-/CatelogService.Model/bin/Release/netcoreapp2.1
-/DAL/bin/Release/netcoreapp2.1
-/ModernECommerce.Commaon/bin/Release/netcoreapp2.1
