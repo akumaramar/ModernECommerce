@@ -22,3 +22,11 @@
 /.vs/ModernECommerce/DesignTimeBuild
 /.vs/ModernECommerce/v15/Server/sqlite3
 /obj
+/bin
+/CatalogService.Business/bin/Release/netcoreapp2.1
+/CatelogService.API/bin/Release/netcoreapp2.1
+/CatelogService.DAL/bin/Release/netcoreapp2.1
+/CatelogService.DTO/bin/Release/netcoreapp2.1
+/CatelogService.Model/bin/Release/netcoreapp2.1
+/DAL/bin/Release/netcoreapp2.1
+/ModernECommerce.Commaon/bin/Release/netcoreapp2.1
