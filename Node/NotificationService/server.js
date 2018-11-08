@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const swagger = require("swagger-node-express");
 
 // Database Configuration
 const dbConfig = require('./config/database.config');
@@ -25,6 +26,8 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(bodyParser.json());
+
+swagger.setAppHandler(app);
 
 app.get("/", (req, res) => {
     res.json({"message":"Hello to Express application"});
