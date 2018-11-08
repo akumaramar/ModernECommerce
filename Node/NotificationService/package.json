@@ -14,7 +14,7 @@
     "Express",
     "RestAPI",
     "MongoDB",
-    "Mongoose"    
+    "Mongoose"
   ],
   "author": "Ajay Kumar",
   "license": "ISC",
@@ -25,6 +25,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "mongoose": "^5.3.9"
+    "mongoose": "^5.3.9",
+    "swagger-node-express": "^2.1.3"
   }
 }
