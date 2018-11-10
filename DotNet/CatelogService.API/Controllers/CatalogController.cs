@@ -8,6 +8,7 @@ using CatelogService.DTO;
 using CatelogService.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CatelogService.API.Controllers
 {
@@ -20,11 +21,13 @@ namespace CatelogService.API.Controllers
     {
         private IProductBusiness _productBusiness;
         private IMapper _mapper;
+        private ILogger _logger; 
 
-        public CatalogController(IProductBusiness productBusiness, IMapper mapper)
+        public CatalogController(IProductBusiness productBusiness, IMapper mapper, ILogger logger)
         {
             this._productBusiness = productBusiness;
             this._mapper = mapper;
+            this._logger = logger;
             
         }
 
@@ -36,6 +39,8 @@ namespace CatelogService.API.Controllers
         [ProducesResponseType(200)]
         public ActionResult<IEnumerable<ProductDto>> GetAll()
         {
+            _logger.LogInformation("Aha Get Function was called");
+            
             IEnumerable<ProductModel> products = _productBusiness.GetAll();
 
             IEnumerable<ProductDto> productsToSend = _mapper.Map<IEnumerable<ProductDto>>(products);
