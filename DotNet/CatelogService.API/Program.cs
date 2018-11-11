@@ -18,7 +18,7 @@ namespace CatelogService.API
     public class Program
     {
         //TODO: Make it configurable
-        private const string ESK_SERVER_URL = "elasticsearch";
+        private const string ESK_SERVER_URL = "localhost";//"elasticsearch";
         private const int SLEEP_SEC = 3;
         private const int MAX_ATTEMPT = 20;
 
@@ -73,8 +73,9 @@ namespace CatelogService.API
                 {
                     config.ClearProviders();
                 })
-                .UseStartup<Startup>()
-                .UseSerilog();
+                .UseSerilog()
+                .UseStartup<Startup>();
+                
 
         private static bool EnsureDependentServicesAreUp()
         {
