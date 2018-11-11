@@ -4,6 +4,7 @@
 
 /.vs/ModernECommerce/DesignTimeBuild
 /.vs/ModernECommerce/v15/Server/sqlite3
+<<<<<<< HEAD
 /DotNet/.vs/ModernECommerce/v15/Server/sqlite3
 /DotNet/.vs/ModernECommerce/DesignTimeBuild
 /DotNet/bin/Release
@@ -28,3 +29,6 @@
 /DotNet/ModernECommerce.Commaon/obj
 /DotNet/obj
 /DotNet/.vs/ModernECommerce/v15/.suo
+=======
+/Node/NotificationService/package-lock.json
+>>>>>>> develop

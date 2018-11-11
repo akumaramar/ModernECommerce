@@ -1,0 +1,31 @@
+{
+  "name": "notificationservice",
+  "version": "1.0.0",
+  "description": "This service will send notification to different applications",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akumaramar/ModernECommerce.git"
+  },
+  "keywords": [
+    "Express",
+    "RestAPI",
+    "MongoDB",
+    "Mongoose"
+  ],
+  "author": "Ajay Kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akumaramar/ModernECommerce/issues"
+  },
+  "homepage": "https://github.com/akumaramar/ModernECommerce#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.9",
+    "swagger-node-express": "^2.1.3"
+  }
+}

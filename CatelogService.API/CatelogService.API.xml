@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CatelogService.API</name>
+    </assembly>
+    <members>
+        <member name="T:CatelogService.API.Controllers.CatalogController">
+            <summary>
+            This Controller will provide API related to Product Catalog.
+            </summary>
+        </member>
+        <member name="M:CatelogService.API.Controllers.CatalogController.GetAll">
+            <summary>
+            This function returns all the products
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
