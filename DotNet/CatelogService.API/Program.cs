@@ -1,4 +1,5 @@
-﻿using System;
+﻿//#define DEBUG_LOCAL
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Polly;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
@@ -18,7 +20,11 @@ namespace CatelogService.API
     public class Program
     {
         //TODO: Make it configurable
-        private const string ESK_SERVER_URL = "elasticsearch";//"localhost";
+#if DEBUG_LOCAL
+        private const string ESK_SERVER_URL = "localhost";
+#else
+        private const string ESK_SERVER_URL = "elasticsearch";
+#endif
         private const int SLEEP_SEC = 3;
         private const int MAX_ATTEMPT = 20;
 
@@ -95,39 +101,26 @@ namespace CatelogService.API
 
             using (HttpClient client = new HttpClient())
             {
-                for (int attenpt = 0; attenpt < MAX_ATTEMPT; attenpt++)
+
+                var retryPolicy = Policy.Handle<Exception>(ex => ex.InnerException.GetType() == typeof(HttpRequestException))
+                .WaitAndRetry(20, retryAttempt => TimeSpan.FromMilliseconds(2000), (result, timeSpan, retryCount, context) => {
+                    Console.WriteLine($"Request failed with {result.Message}");
+                });
+
+                retryPolicy.Execute(() =>
                 {
-                    Console.WriteLine("Trying to connect to log server");
+                    
 
-                    try
+                    //client.GetAsync(url).Result;
+                    using (HttpResponseMessage res = client.GetAsync(url).Result)
                     {
-                        using (HttpResponseMessage res = client.GetAsync(url).Result)
+                        if (res.IsSuccessStatusCode == true)
                         {
-
-                            if (res.IsSuccessStatusCode == true)
-                            {
-                                Console.WriteLine("Was successful in connecting to log service");
-                                isLoggingUp = true;
-                                break;
-                            }
-
+                            Console.WriteLine("Was successful in connecting to log service");
+                            isLoggingUp = true;
                         }
-
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error while connecting.");
-                        Console.WriteLine(ex.Message);
-                    }
-
-                    Console.WriteLine("Sleeping for {0} secs", SLEEP_SEC);
-                    Thread.Sleep(SLEEP_SEC * 1000);
-                }
-            }
-
-            if (isLoggingUp == false)
-            {
-                Console.WriteLine("Was not able to connect after {0} attempts", MAX_ATTEMPT);
+                });
             }
 
             return isLoggingUp;
