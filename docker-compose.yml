@@ -15,7 +15,7 @@ services:
  catelogservice.api:
     image: ${DOCKER_REGISTRY}catelogserviceapi
     build:
-      context: .
+      context: DotNet
       dockerfile: CatelogService.API/Dockerfile
     ports:
       - "8080:80"
@@ -24,21 +24,21 @@ services:
     links:
       - elasticsearch
  
- app:
-    container_name: notification_service
-    restart: always
-    build: 
-      context: ../Node/NotificationService/
-      dockerfile: ../Node/NotificationService/Dockerfile
-    ports: 
-      - "3000:3000"
-    links:
-      - mongo
+ #app:
+ #   container_name: notification_service
+ #   restart: always
+ #   build: 
+ #     context: Node/NotificationService
+ #     dockerfile: Dockerfile
+ #   ports: 
+ #     - "3000:3000"
+ #   links:
+ #     - mongo
  
- mongo:
-    container_name: mongo
-    image: mongo
-    volumes:
-      - ../Node/NotificationService/data:/data/db
-    ports:
-      - "27017:27017"
+ #mongo:
+ #   container_name: mongo
+ #   image: mongo
+ #   volumes:
+ #     - ./Node/NotificationService/data:/data/db
+ #   ports:
+ #     - "27017:27017"

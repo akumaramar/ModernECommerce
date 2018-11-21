@@ -25,9 +25,6 @@
 /DotNet/ConsoleTest/bin/Debug/netcoreapp2.1
 /Node/NotificationService/node_modules
 /Node/NotificationService/package-lock.json
-/DotNet/ModernECommerce.Commaon/bin
-/DotNet/ModernECommerce.Commaon/obj
-/DotNet/obj
 /DotNet/.vs/ModernECommerce/v15/.suo
 =======
 /Node/NotificationService/package-lock.json

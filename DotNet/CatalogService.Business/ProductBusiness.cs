@@ -3,6 +3,7 @@ using CatelogService.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CatalogService.Business
 {
@@ -39,6 +40,11 @@ namespace CatalogService.Business
         public void Delete(Guid id)
         {
             _productRepository.Delete(id);
+        }
+
+        public Task<IEnumerable<ProductModel>> GetAllAsyc()
+        {
+            return _productRepository.GetAllAsync();
         }
     }
 }

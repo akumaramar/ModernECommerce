@@ -21,9 +21,9 @@ namespace CatelogService.API.Controllers
     {
         private IProductBusiness _productBusiness;
         private IMapper _mapper;
-        private ILogger _logger; 
+        private ILogger<CatalogController> _logger; 
 
-        public CatalogController(IProductBusiness productBusiness, IMapper mapper, ILogger logger)
+        public CatalogController(IProductBusiness productBusiness, IMapper mapper, ILogger<CatalogController> logger)
         {
             this._productBusiness = productBusiness;
             this._mapper = mapper;
@@ -37,11 +37,9 @@ namespace CatelogService.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200)]
-        public ActionResult<IEnumerable<ProductDto>> GetAll()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAll()
         {
-            _logger.LogInformation("Aha Get Function was called");
-            
-            IEnumerable<ProductModel> products = _productBusiness.GetAll();
+            IEnumerable<ProductModel> products = await _productBusiness.GetAllAsyc();
 
             IEnumerable<ProductDto> productsToSend = _mapper.Map<IEnumerable<ProductDto>>(products);
 

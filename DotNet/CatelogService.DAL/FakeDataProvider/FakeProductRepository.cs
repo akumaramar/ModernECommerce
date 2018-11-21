@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using CatelogService.Model;
 //using Faker;
 
@@ -33,6 +34,11 @@ namespace CatelogService.DAL.FakeDataProvider
         }
 
         public IEnumerable<ProductModel> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ProductModel>> GetAllAsync()
         {
             throw new NotImplementedException();
         }

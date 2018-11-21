@@ -1,4 +1,5 @@
-﻿using System;
+﻿//#define DEBUG_LOCAL
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,15 +11,21 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Polly;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace CatelogService.API
 {
     public class Program
     {
         //TODO: Make it configurable
-        private const string ESK_SERVER_URL = "localhost";//"elasticsearch";
+#if DEBUG_LOCAL
+        private const string ESK_SERVER_URL = "localhost";
+#else
+        private const string ESK_SERVER_URL = "elasticsearch";
+#endif
         private const int SLEEP_SEC = 3;
         private const int MAX_ATTEMPT = 20;
 
@@ -26,28 +33,44 @@ namespace CatelogService.API
         {
             Console.WriteLine("Checking if all dependent services are up");
 
-            if (EnsureDependentServicesAreUp() == false)
+            if (Environment.UserInteractive)
             {
-                Console.WriteLine("Some of the dependent services are not up so shutting down service");
-                return;
+                // This path is for local debugging
+                //TODO: Move to configuration file
+                Console.WriteLine("In Interactive mode");
+
+                Log.Logger = new LoggerConfiguration()
+                    .WriteTo.ColoredConsole()
+                    .CreateLogger();
+            }
+            else
+            {
+                if (EnsureDependentServicesAreUp() == false)
+                {
+                    Console.WriteLine("Some of the dependent services are not up so shutting down service");
+                    return;
+                }
+
+                Console.WriteLine("All dependent services are up");
+
+
+                // Enable logging for serilogger errors
+                Serilog.Debugging.SelfLog.Enable(Console.Error);
+
+
+
+                // Configure logging to serilogger and elastic
+                Log.Logger = new LoggerConfiguration()
+                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(String.Format("http://{0}:9200", ESK_SERVER_URL)))
+                    {
+                        AutoRegisterTemplate = true,
+                        AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6
+                    })
+                    .CreateLogger();
+
             }
 
-            Console.WriteLine("All dependent services are up");
-
-
-            // Enable logging for serilogger errors
-            Serilog.Debugging.SelfLog.Enable(Console.Error);
             
-            
-
-            // Configure logging to serilogger and elastic
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(String.Format("http://{0}:9200", ESK_SERVER_URL)))
-                {
-                    AutoRegisterTemplate = true,
-                    AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6
-                })
-                .CreateLogger();
 
             try
             {
@@ -69,10 +92,10 @@ namespace CatelogService.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureLogging((hostingContext, config) =>
-                {
-                    config.ClearProviders();
-                })
+                //.ConfigureLogging((hostingContext, config) =>
+                //{
+                //    config.ClearProviders();
+                //})
                 .UseSerilog()
                 .UseStartup<Startup>();
                 
@@ -95,39 +118,26 @@ namespace CatelogService.API
 
             using (HttpClient client = new HttpClient())
             {
-                for (int attenpt = 0; attenpt < MAX_ATTEMPT; attenpt++)
+
+                var retryPolicy = Policy.Handle<Exception>(ex => ex.InnerException.GetType() == typeof(HttpRequestException))
+                .WaitAndRetry(20, retryAttempt => TimeSpan.FromMilliseconds(2000), (result, timeSpan, retryCount, context) => {
+                    Console.WriteLine($"Request failed with {result.Message}");
+                });
+
+                retryPolicy.Execute(() =>
                 {
-                    Console.WriteLine("Trying to connect to log server");
+                    
 
-                    try
+                    //client.GetAsync(url).Result;
+                    using (HttpResponseMessage res = client.GetAsync(url).Result)
                     {
-                        using (HttpResponseMessage res = client.GetAsync(url).Result)
+                        if (res.IsSuccessStatusCode == true)
                         {
-
-                            if (res.IsSuccessStatusCode == true)
-                            {
-                                Console.WriteLine("Was successful in connecting to log service");
-                                isLoggingUp = true;
-                                break;
-                            }
-
+                            Console.WriteLine("Was successful in connecting to log service");
+                            isLoggingUp = true;
                         }
-
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error while connecting.");
-                        Console.WriteLine(ex.Message);
-                    }
-
-                    Console.WriteLine("Sleeping for {0} secs", SLEEP_SEC);
-                    Thread.Sleep(SLEEP_SEC * 1000);
-                }
-            }
-
-            if (isLoggingUp == false)
-            {
-                Console.WriteLine("Was not able to connect after {0} attempts", MAX_ATTEMPT);
+                });
             }
 
             return isLoggingUp;

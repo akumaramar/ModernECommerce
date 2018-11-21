@@ -95,5 +95,10 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<T>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

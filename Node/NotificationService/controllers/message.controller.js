@@ -30,6 +30,9 @@ exports.create = (req, res) => {
 
 exports.getall = (req, res) => {
 
+    // Testing error handling methods of the Node Express.
+    //throw new Error("Got errpr while calling this function");
+
     Message.find()
     .then(messages => {
         res.send(messages);

@@ -68,5 +68,10 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<OrderEntity>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
