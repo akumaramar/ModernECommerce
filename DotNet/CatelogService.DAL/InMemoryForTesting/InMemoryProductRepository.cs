@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using CatelogService.Model;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CatelogService.DAL.InMemoryForTesting
 {
@@ -34,6 +35,11 @@ namespace CatelogService.DAL.InMemoryForTesting
         public IEnumerable<ProductModel> GetAll()
         {
             return dataHolder.Products;
+        }
+
+        public Task<IEnumerable<ProductModel>> GetAllAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public ProductModel Update(ProductModel entity)

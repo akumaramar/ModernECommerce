@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Polly;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace CatelogService.API
 {
@@ -32,28 +33,44 @@ namespace CatelogService.API
         {
             Console.WriteLine("Checking if all dependent services are up");
 
-            if (EnsureDependentServicesAreUp() == false)
+            if (Environment.UserInteractive)
             {
-                Console.WriteLine("Some of the dependent services are not up so shutting down service");
-                return;
+                // This path is for local debugging
+                //TODO: Move to configuration file
+                Console.WriteLine("In Interactive mode");
+
+                Log.Logger = new LoggerConfiguration()
+                    .WriteTo.ColoredConsole()
+                    .CreateLogger();
+            }
+            else
+            {
+                if (EnsureDependentServicesAreUp() == false)
+                {
+                    Console.WriteLine("Some of the dependent services are not up so shutting down service");
+                    return;
+                }
+
+                Console.WriteLine("All dependent services are up");
+
+
+                // Enable logging for serilogger errors
+                Serilog.Debugging.SelfLog.Enable(Console.Error);
+
+
+
+                // Configure logging to serilogger and elastic
+                Log.Logger = new LoggerConfiguration()
+                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(String.Format("http://{0}:9200", ESK_SERVER_URL)))
+                    {
+                        AutoRegisterTemplate = true,
+                        AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6
+                    })
+                    .CreateLogger();
+
             }
 
-            Console.WriteLine("All dependent services are up");
-
-
-            // Enable logging for serilogger errors
-            Serilog.Debugging.SelfLog.Enable(Console.Error);
             
-            
-
-            // Configure logging to serilogger and elastic
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(String.Format("http://{0}:9200", ESK_SERVER_URL)))
-                {
-                    AutoRegisterTemplate = true,
-                    AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6
-                })
-                .CreateLogger();
 
             try
             {
@@ -75,10 +92,10 @@ namespace CatelogService.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureLogging((hostingContext, config) =>
-                {
-                    config.ClearProviders();
-                })
+                //.ConfigureLogging((hostingContext, config) =>
+                //{
+                //    config.ClearProviders();
+                //})
                 .UseSerilog()
                 .UseStartup<Startup>();
                 

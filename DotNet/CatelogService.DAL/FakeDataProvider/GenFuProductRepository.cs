@@ -5,6 +5,7 @@ using CatelogService.Model;
 using GenFu;
 using ModernECommerce.Common.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CatelogService.DAL.FakeDataProvider
 {
@@ -47,6 +48,27 @@ namespace CatelogService.DAL.FakeDataProvider
         public IEnumerable<ProductModel> GetAll()
         {
             return _products.FindAll(e => e.MarkDeleted == false && e.MarkDeleted == false);
+        }
+
+        public async Task<IEnumerable<ProductModel>> GetAllAsync()
+        {
+            //Task<IEnumerable<ProductModel>> getProductTask = new Task<IEnumerable<ProductModel>>(() =>
+            //{
+            //    return _products.FindAll(e => e.MarkDeleted == false && e.MarkDeleted == false);
+            //});
+
+            //getProductTask.Start();
+
+            return await Task<IEnumerable<ProductModel>>.Run(() =>
+            {
+                return _products.FindAll(e => e.MarkDeleted == false && e.MarkDeleted == false);
+            });
+
+            //getProductTask.Wait();
+
+            //return _products.FindAll()
+            //return getProductTask.Result;
+
         }
 
         public ProductModel Update(ProductModel entity)
