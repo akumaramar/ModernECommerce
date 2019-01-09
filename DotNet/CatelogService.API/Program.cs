@@ -20,6 +20,7 @@ namespace CatelogService.API
 {
     public class Program
     {
+
         //TODO: Make it configurable
 #if DEBUG_LOCAL
         private const string ESK_SERVER_URL = "localhost";
@@ -31,17 +32,18 @@ namespace CatelogService.API
 
         public static void Main(string[] args)
         {
-            Console.WriteLine("Checking if all dependent services are up");
 
-            if (Environment.UserInteractive)
+            if (args != null && args.Length > 0 && args[0] == "CONSOLEDEBUG")
             {
                 // This path is for local debugging
                 //TODO: Move to configuration file
-                Console.WriteLine("In Interactive mode");
+                //Console.WriteLine("In debug mode");
 
                 Log.Logger = new LoggerConfiguration()
                     .WriteTo.ColoredConsole()
                     .CreateLogger();
+
+                Log.Logger.Information("In debug mode");
             }
             else
             {
@@ -120,8 +122,8 @@ namespace CatelogService.API
             {
 
                 var retryPolicy = Policy.Handle<Exception>(ex => ex.InnerException.GetType() == typeof(HttpRequestException))
-                .WaitAndRetry(20, retryAttempt => TimeSpan.FromMilliseconds(2000), (result, timeSpan, retryCount, context) => {
-                    Console.WriteLine($"Request failed with {result.Message}");
+                .WaitAndRetry(MAX_ATTEMPT, retryAttempt => TimeSpan.FromMilliseconds(SLEEP_SEC*1000), (result, timeSpan, retryCount, context) => {
+                    Console.WriteLine($"Connecting to {url} Request failed with {result.Message}. Attempt {retryCount}");
                 });
 
                 retryPolicy.Execute(() =>
@@ -138,6 +140,8 @@ namespace CatelogService.API
                         }
                     }
                 });
+
+
             }
 
             return isLoggingUp;

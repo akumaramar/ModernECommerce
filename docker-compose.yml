@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
 
- elasticsearch: 
+  elasticsearch: 
    image: nshou/elasticsearch-kibana
    container_name: elasticsearch
    ports:
@@ -10,9 +10,11 @@ services:
     - "5601:5601"
    volumes:
     - ./elasticsearch-data:/usr/share/elasticsearch/data
- 
+  
+  cache.data:
+    image: redis:alpine
 
- catelogservice.api:
+  catelogservice.api:
     image: ${DOCKER_REGISTRY}catelogserviceapi
     build:
       context: DotNet
@@ -21,6 +23,7 @@ services:
       - "8080:80"
     depends_on:
       - elasticsearch
+      - cache.data
     links:
       - elasticsearch
  
