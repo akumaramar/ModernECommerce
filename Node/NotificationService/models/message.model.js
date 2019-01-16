@@ -1,9 +1,18 @@
 const mongoose = require('mongoose');
 
 const MessageScehma = mongoose.Schema({
-    to: String,
-    from: String,
-    msg: String
+    to: {
+        type: String,
+        required: true
+    },
+    from: {
+        type: String,
+        required: true
+    },
+    msg: {
+        type: String,
+        required: true
+    }
 },{
     timestamps: true
 });
