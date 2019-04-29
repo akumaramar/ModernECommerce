@@ -46,5 +46,26 @@ namespace CatalogService.Business
         {
             return _productRepository.GetAllAsync();
         }
+
+        public Task<ProductModel> AddAsync(ProductModel product)
+        {
+            return _productRepository.AddAsync(product);
+        }
+
+        public Task<ProductModel> GetByIdAsync(Guid id)
+        {
+            return _productRepository.FindAsync(id);
+        }
+
+        public Task<ProductModel> UpdateSync(ProductModel productModel)
+        {
+            return _productRepository.UpdateAsync(productModel);
+
+        }
+
+        public Task DeleteAsync(Guid id)
+        {
+            return _productRepository.DeleteAsync(id);
+        }
     }
 }

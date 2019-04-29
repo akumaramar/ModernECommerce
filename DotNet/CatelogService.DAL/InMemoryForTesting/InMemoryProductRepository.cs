@@ -18,11 +18,28 @@ namespace CatelogService.DAL.InMemoryForTesting
             return entity;
         }
 
+        public async Task<ProductModel> AddAsync(ProductModel product)
+        {
+            return await Task<ProductModel>.Run(() =>
+            {
+                return Add(product); 
+            });
+        }
+
         public void Delete(Guid ID)
         {
             ProductModel foundEntity = dataHolder.Products.FirstOrDefault(e => e.ID == ID);
 
             dataHolder.Products.Remove(foundEntity);
+        }
+
+        public async Task DeleteAsync(Guid ID)
+        {
+            await Task.Run(() =>
+            {
+                Delete(ID);
+            });
+
         }
 
         public ProductModel Find(Guid ID)
@@ -32,14 +49,25 @@ namespace CatelogService.DAL.InMemoryForTesting
             return foundEntity;
         }
 
+        public async Task<ProductModel> FindAsync(Guid ID)
+        {
+            return await Task<ProductModel>.Run(() =>
+            {
+                return Find(ID);
+            });
+        }
+
         public IEnumerable<ProductModel> GetAll()
         {
             return dataHolder.Products;
         }
 
-        public Task<IEnumerable<ProductModel>> GetAllAsync()
+        public async Task<IEnumerable<ProductModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task<IEnumerable<ProductModel>>.Run(() =>
+            {
+                return GetAll();
+            });
         }
 
         public ProductModel Update(ProductModel entity)
@@ -49,6 +77,15 @@ namespace CatelogService.DAL.InMemoryForTesting
             foundEntity.Name = entity.Name;
             foundEntity.ImageUrl = entity.ImageUrl;
             return foundEntity;
+        }
+
+        public async Task<ProductModel> UpdateAsync(ProductModel entity)
+        {
+            return await Task<ProductModel>.Run(() =>
+            {
+                return Update(entity);
+            });
+
         }
     }
 }

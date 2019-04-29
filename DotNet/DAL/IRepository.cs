@@ -15,11 +15,19 @@ namespace DAL
 
         T Add(T entity);
 
+        Task<T> AddAsync(T product);
+
         T Update(T entity);
+
+        Task<T> UpdateAsync(T entity);
 
         T Find(Guid ID);
 
+        Task<T> FindAsync(Guid ID);
+
         void Delete(Guid ID);
+
+        Task DeleteAsync(Guid ID);
 
     }
 }

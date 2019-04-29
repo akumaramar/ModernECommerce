@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
+
 namespace CatelogService.API.Controllers
 {
     /// <summary>
@@ -41,10 +42,7 @@ namespace CatelogService.API.Controllers
         {
             IEnumerable<ProductModel> products = await _productBusiness.GetAllAsyc();
 
-            IEnumerable<ProductDto> productsToSend = _mapper.Map<IEnumerable<ProductDto>>(products);
-
-            //All is well
-            return Ok(productsToSend);
+            return Ok(products.ToDtoEnumerable<ProductDto>(_mapper));
         }
 
         [HttpGet("{id}")]
@@ -59,24 +57,24 @@ namespace CatelogService.API.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<ProductDto>(productModel));
+            return Ok(productModel.ToDto<ProductDto>(_mapper));
         }
 
         [HttpPost]
         [ProducesResponseType(201)]
-        public ActionResult<ProductDto> Create(ProductDto productDto)
+        public async Task<ActionResult<ProductDto>> Create(ProductDto productDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            ProductModel productModel = _mapper.Map<ProductModel>(productDto);
+            ProductModel productModel = productDto.ToEntity<ProductModel>(_mapper);
 
             // Add product
-            productModel = _productBusiness.Add(productModel);
+            productModel = await _productBusiness.AddAsync(productModel);
 
-            return CreatedAtAction(nameof(GetById), new { id = productModel.ID }, _mapper.Map<ProductDto>(productModel));
+            return CreatedAtAction(nameof(GetById), new { id = productModel.ID }, productModel.ToDto<ProductDto>(_mapper));
 
         }
 
@@ -89,7 +87,7 @@ namespace CatelogService.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            ProductModel productModel = _mapper.Map<ProductModel>(productDto);
+            ProductModel productModel = productDto.ToEntity<ProductModel>(_mapper);
 
             // Update Product
             productModel = _productBusiness.Update(productModel);

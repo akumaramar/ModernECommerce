@@ -30,6 +30,17 @@ namespace CatelogService.DAL.FakeDataProvider
             return entity;
         }
 
+        public async Task<ProductModel> AddAsync(ProductModel entity)
+        {
+            entity.ID = Guid.NewGuid();
+
+            return await Task<ProductModel>.Run(() =>
+            {
+                return Add(entity);
+            });
+
+        }
+
         public void Delete(Guid ID)
         {
             ProductModel product  = Find(ID);
@@ -40,9 +51,25 @@ namespace CatelogService.DAL.FakeDataProvider
             }
         }
 
+        public async Task DeleteAsync(Guid ID)
+        {
+            await Task.Run(() =>
+            {
+                Delete(ID);
+            });
+        }
+
         public ProductModel Find(Guid ID)
         {
             return _products.FirstOrDefault(e => e.ID == ID && e.MarkDeleted == false);
+        }
+
+        public async Task<ProductModel> FindAsync(Guid ID)
+        {
+            return await Task<ProductModel>.Run(() =>
+            {
+                return Find(ID);
+            });
         }
 
         public IEnumerable<ProductModel> GetAll()
@@ -52,22 +79,10 @@ namespace CatelogService.DAL.FakeDataProvider
 
         public async Task<IEnumerable<ProductModel>> GetAllAsync()
         {
-            //Task<IEnumerable<ProductModel>> getProductTask = new Task<IEnumerable<ProductModel>>(() =>
-            //{
-            //    return _products.FindAll(e => e.MarkDeleted == false && e.MarkDeleted == false);
-            //});
-
-            //getProductTask.Start();
-
             return await Task<IEnumerable<ProductModel>>.Run(() =>
             {
-                return _products.FindAll(e => e.MarkDeleted == false && e.MarkDeleted == false);
+                return GetAll();
             });
-
-            //getProductTask.Wait();
-
-            //return _products.FindAll()
-            //return getProductTask.Result;
 
         }
 
@@ -77,6 +92,14 @@ namespace CatelogService.DAL.FakeDataProvider
             product.Name = entity.Name;
             product.Description = entity.Description;
             return product;
+        }
+
+        public async Task<ProductModel> UpdateAsync(ProductModel entity)
+        {
+            return await Task<ProductModel>.Run(() =>
+            {
+                return Update(entity);
+            });
         }
     }
 

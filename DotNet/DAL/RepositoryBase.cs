@@ -100,5 +100,10 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
+
+        public new Task<T> FindAsync(Guid ID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

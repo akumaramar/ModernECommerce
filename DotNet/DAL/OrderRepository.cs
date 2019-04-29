@@ -61,7 +61,7 @@ namespace DAL
 
         public Task<OrderEntity> UpdateAsync(OrderEntity entity)
         {
-            throw new NotImplementedException();
+            return _orderRepostiory.UpdateAsync(entity);
         }
 
         public IEnumerable<OrderEntity> GetAll()
@@ -70,6 +70,11 @@ namespace DAL
         }
 
         public Task<IEnumerable<OrderEntity>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<OrderEntity> FindAsync(Guid ID)
         {
             throw new NotImplementedException();
         }

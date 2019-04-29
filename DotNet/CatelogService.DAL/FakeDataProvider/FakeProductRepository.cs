@@ -23,12 +23,27 @@ namespace CatelogService.DAL.FakeDataProvider
             throw new NotImplementedException();
         }
 
+        public Task<ProductModel> AddAsync(ProductModel product)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(Guid ID)
         {
             throw new NotImplementedException();
         }
 
+        public Task DeleteAsync(Guid ID)
+        {
+            throw new NotImplementedException();
+        }
+
         public ProductModel Find(Guid ID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ProductModel> FindAsync(Guid ID)
         {
             throw new NotImplementedException();
         }
@@ -44,6 +59,11 @@ namespace CatelogService.DAL.FakeDataProvider
         }
 
         public ProductModel Update(ProductModel entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ProductModel> UpdateAsync(ProductModel entity)
         {
             throw new NotImplementedException();
         }

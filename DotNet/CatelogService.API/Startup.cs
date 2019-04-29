@@ -46,8 +46,9 @@ namespace CatelogService.API
             });
 
             // Set Product Dependencies
-            services.AddTransient<IProductBusiness, ProductBusiness>();
+            services.AddTransient<IProductBusiness, ProductBusiness>(); 
             services.AddSingleton<IProductRepository, GenFuProductRepository>();
+            //services.AddSingleton<IProductRepository, InMemoryProductRepository>();
 
             // Add Automapping
             services.AddAutoMapper();
