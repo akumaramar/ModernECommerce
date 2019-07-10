@@ -24,16 +24,16 @@ services:
     links:
       - elasticsearch
  
- app:
-    container_name: notification_service
-    restart: always
-    build: 
-      context: ../Node/NotificationService/
-      dockerfile: ../Node/NotificationService/Dockerfile
-    ports: 
-      - "3000:3000"
-    links:
-      - mongo
+ #app:
+ #   container_name: notification_service
+ #   restart: always
+#    build: 
+ #     context: ../Node/NotificationService/
+ #     dockerfile: ../Node/NotificationService/Dockerfile
+ #   ports: 
+ #     - "3000:3000"
+ #   links:
+ #     - mongo
  
  mongo:
     container_name: mongo
