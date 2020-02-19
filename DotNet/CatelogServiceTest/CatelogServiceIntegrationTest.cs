@@ -30,14 +30,17 @@ namespace CatelogServiceTest
             ProductDto dto = new ProductDto();
             dto.Name = productName;
             dto.Description = productDescription;
-            var httpResponseAdd = await _client.PostAsJsonAsync<ProductDto>(baseURL, dto);
+            //TODO: Need to check this again
+            //var httpResponseAdd = await _client.PostAsync( <ProductDto>(baseURL, dto);
 
             // Make sure it was successfull
-            httpResponseAdd.EnsureSuccessStatusCode();
+            //TODO: Fix the issue
+            //httpResponseAdd.EnsureSuccessStatusCode();
 
             // Get the added value to understand if it was added correctly
             dto = null;
-            dto = await DeserialiseToDto(httpResponseAdd);
+            //TODO: Fix this issue
+            //dto = await DeserialiseToDto(httpResponseAdd);
 
             // We got a response
             Assert.NotNull(dto);

@@ -63,7 +63,7 @@ namespace CatelogService.API
 
                 // Configure logging to serilogger and elastic
                 Log.Logger = new LoggerConfiguration()
-                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(String.Format("http://{0}:9200", ESK_SERVER_URL)))
+                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(String.Format($"http://{ESK_SERVER_URL}:9200")))
                     {
                         AutoRegisterTemplate = true,
                         AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6

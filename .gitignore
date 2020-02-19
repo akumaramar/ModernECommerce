@@ -26,6 +26,9 @@
 /Node/NotificationService/node_modules
 /Node/NotificationService/package-lock.json
 /DotNet/.vs/ModernECommerce/v15/.suo
+/DotNet/.vs/ModernECommerce/v16
+/DotNet/ConsoleTest/bin
+/DotNet/ModernECommerce.Commaon/bin
 =======
 /Node/NotificationService/package-lock.json
 >>>>>>> develop
