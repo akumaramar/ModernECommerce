@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: modernecom
+spec:
+  selector:
+    matchLabels:
+      app: modernecom
+  template:
+    metadata:
+      labels:
+        app: modernecom
+    spec:
+      containers:
+      - name: modernecom
+        image: modernecom:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: modernecom-service
+spec:
+  selector:
+    app: modernecom
+  ports:
+  - port: 80
+#    targetPort: <Target Port>
+  type: NodePort
+

@@ -10,7 +10,7 @@ using ModernECommerce.Common.Entity;
 
 namespace DAL
 {
-    public class EntityFrameworkRepository<T> : DbContext, IRepository<T> , IRepositoryAsync<T> where T: EntityBase
+    public class EntityFrameworkRepository<T> : DbContext, IRepository<T> where T: EntityBase
     {
         private DbSet<T> _entities;
 
@@ -101,7 +101,7 @@ namespace DAL
             throw new NotImplementedException();
         }
 
-        public new Task<T> FindAsync(Guid ID)
+        public Task<T> FindAsync(Guid ID)
         {
             throw new NotImplementedException();
         }

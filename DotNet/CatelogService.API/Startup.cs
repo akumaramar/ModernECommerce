@@ -34,7 +34,7 @@ namespace CatelogService.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSwaggerGen(c =>
             {
@@ -50,6 +50,9 @@ namespace CatelogService.API
             services.AddTransient<IProductBusiness, ProductBusiness>(); 
             services.AddSingleton<IProductRepository, GenFuProductRepository>();
             //services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+
+            // Add Health Check
+            services.AddHealthChecks();
 
             // Add Automapping
             services.AddAutoMapper(typeof(Startup));
@@ -82,6 +85,11 @@ namespace CatelogService.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHealthChecks("/health");
             });
         }
     }

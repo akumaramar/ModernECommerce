@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DAL
 {
-    public interface IOrderRepository : IRepositoryAsync<OrderEntity>
+    public interface IOrderRepository : IRepository<OrderEntity>
     {
         //Place for extra functions here
     }

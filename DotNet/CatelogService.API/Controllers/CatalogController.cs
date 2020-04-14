@@ -17,7 +17,7 @@ namespace CatelogService.API.Controllers
     /// <summary>
     /// This Controller will provide API related to Product Catalog.
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class CatalogController : ControllerBase
     {
@@ -25,6 +25,12 @@ namespace CatelogService.API.Controllers
         private IMapper _mapper;
         private ILogger<CatalogController> _logger; 
 
+        /// <summary>
+        /// Constructor. This allows the injection of the dependencies.
+        /// </summary>
+        /// <param name="productBusiness"></param>
+        /// <param name="mapper"></param>
+        /// <param name="logger"></param>
         public CatalogController(IProductBusiness productBusiness, IMapper mapper, ILogger<CatalogController> logger)
         {
             this._productBusiness = productBusiness;
@@ -46,6 +52,11 @@ namespace CatelogService.API.Controllers
             return Ok(products.ToDtoEnumerable<ProductDto>(_mapper));
         }
 
+        /// <summary>
+        /// This API returns the Products based on passed Id.
+        /// </summary>
+        /// <param name="id">Product ID</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -61,6 +72,11 @@ namespace CatelogService.API.Controllers
             return Ok(productModel.ToDto<ProductDto>(_mapper));
         }
 
+        /// <summary>
+        /// This API creates a product with passed parameter.
+        /// </summary>
+        /// <param name="productDto">The Product DTO to be created.</param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         public async Task<ActionResult<ProductDto>> Create(ProductDto productDto)
@@ -75,10 +91,16 @@ namespace CatelogService.API.Controllers
             // Add product
             productModel = await _productBusiness.AddAsync(productModel);
 
+            // Send the created Object to client.
             return CreatedAtAction(nameof(GetById), new { id = productModel.ID }, productModel.ToDto<ProductDto>(_mapper));
 
         }
 
+        /// <summary>
+        /// This API updates existing product with passed values.
+        /// </summary>
+        /// <param name="productDto">The product to be updated.</param>
+        /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(204)]
         public IActionResult Update(ProductDto productDto)
@@ -93,10 +115,16 @@ namespace CatelogService.API.Controllers
             // Update Product
             productModel = _productBusiness.Update(productModel);
 
+            // Nothing to update client.
             return NoContent(); 
 
         }
 
+        /// <summary>
+        /// This API deletes the Product with Passed ID.
+        /// </summary>
+        /// <param name="id">Product ID to be deleted.</param>
+        /// <returns></returns>
         [HttpDelete]
         public IActionResult Delete(Guid id)
         {
@@ -107,6 +135,7 @@ namespace CatelogService.API.Controllers
 
             _productBusiness.Delete(id);
 
+            // Nothing to update to client.
             return NoContent();
         }
 
