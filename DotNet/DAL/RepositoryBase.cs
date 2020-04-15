@@ -17,20 +17,26 @@ namespace DAL
         public EntityFrameworkRepository()
         {
             _entities = this.Set<T>();
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseSqlServer(@"Server=.;Database=NewDb;Trusted_Connection=True;");
-
+            //String connectionString = "Server=.;Database=NewDb;Trusted_Connection=True;";
+            String connectionString = "Server=localhost, 1433;Database=CatalogDB;User Id=sa;Password=Ramesh17@;";
+            optionsBuilder.UseSqlServer(connectionString);
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Dynmically Add this model
+
+            // Find a better way to scan through all the Models and add them dynamically
             modelBuilder.Model.AddEntityType(typeof(T));
             base.OnModelCreating(modelBuilder);
+        
         }
 
         private void UpdateStandardFields(T entity)
@@ -40,16 +46,17 @@ namespace DAL
             entity.LastModifiedOn = DateTime.Now;
         }
 
-        public T Add(T enity)
+        public T Add(T entity)
         {
-            UpdateStandardFields(enity);
-            EntityEntry<T> t = _entities.Add(enity);
+            UpdateStandardFields(entity);
+            EntityEntry<T> t = _entities.Add(entity);
             base.SaveChanges();
             return t.Entity;
         }
 
         public async Task<T> AddAsync(T entity)
         {
+            UpdateStandardFields(entity);
             EntityEntry<T> t = _entities.Add(entity);
             await base.SaveChangesAsync();
             return t.Entity;
@@ -60,50 +67,76 @@ namespace DAL
             T t = _entities.Where(e => e.ID == ID).SingleOrDefault();
 
             // We just need to mark this one as deleted
-            t.MarkDeleted = true;
+            if (t != null)
+            {
+                t.MarkDeleted = true;
 
-            base.SaveChanges();
+                base.SaveChanges();
+            }
+
+           
 
         }
 
-        public Task DeleteAsync(Guid ID)
+        public async Task DeleteAsync(Guid ID)
         {
-            throw new NotImplementedException();
+            T t = await _entities.FirstOrDefaultAsync<T>(p => p.ID == ID && p.MarkDeleted == false);
+
+            if(t != null)
+            {
+                t.MarkDeleted = true;
+                await base.SaveChangesAsync();
+            }
+            //throw new NotImplementedException();
         }
 
         public T Find(Guid ID)
         {
-            throw new NotImplementedException();
+            T t = _entities.FirstOrDefault<T>(p => p.ID == ID && p.MarkDeleted == false);
+
+            return t;
+
         }
 
         public Task<T> FindAsync(T entity)
         {
+
             throw new NotImplementedException();
         }
 
         public T Update(T entity)
         {
-            throw new NotImplementedException();
+            T t = _entities.FirstOrDefault<T>(p => p.ID == entity.ID);
+            base.Entry<T>(t).CurrentValues.SetValues(entity);
+            base.SaveChanges();
+            return entity;
+            //throw new NotImplementedException();
         }
 
-        public Task<T> UpdateAsync(T entity)
+        public async Task<T> UpdateAsync(T entity)
         {
-            throw new NotImplementedException();
+            base.Entry<T>(entity).State = EntityState.Modified;
+            await base.SaveChangesAsync();
+            return entity;
+
+            //throw new NotImplementedException();
         }
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _entities.Where<T>(a => a.MarkDeleted == false); //.Select<T>(a => a.  .Find<T>(a => a.) //.ToList<T>();
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            IEnumerable<T> returnEntities = await _entities.Where<T>(a => a.MarkDeleted == false).ToListAsync<T>();
+            return returnEntities;
         }
 
-        public Task<T> FindAsync(Guid ID)
+        public async Task<T> FindAsync(Guid ID)
         {
-            throw new NotImplementedException();
+            T t = await _entities.FirstOrDefaultAsync<T>(p => p.ID == ID && p.MarkDeleted == false);
+            return t;
         }
     }
 }

@@ -47,8 +47,16 @@ namespace CatelogService.API
             });
 
             // Set Product Dependencies
-            services.AddTransient<IProductBusiness, ProductBusiness>(); 
-            services.AddSingleton<IProductRepository, GenFuProductRepository>();
+            services.AddTransient<IProductBusiness, ProductBusiness>();
+            //services.AddSingleton<IProductRepository, GenFuProductRepository>();
+
+            // Create Database
+            using (ProductRepository repo = new ProductRepository())
+            {
+                repo.Database.EnsureCreated();
+            }
+
+            services.AddSingleton<IProductRepository, ProductRepository>();
             //services.AddSingleton<IProductRepository, InMemoryProductRepository>();
 
             // Add Health Check
