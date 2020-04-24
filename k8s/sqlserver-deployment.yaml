@@ -46,10 +46,10 @@ spec:
       containers:
       - name: sqlserver
         image: mcr.microsoft.com/mssql/server:2017-latest
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+#        resources:
+#          limits:
+#            memory: "128Mi"
+#           cpu: "500m"
         env:
           - name: ACCEPT_EULA
             value: "Y"
