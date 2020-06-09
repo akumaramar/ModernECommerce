@@ -35,3 +35,6 @@
 /springbootdemo/
 /CatelogServiceTest/obj
 /DotNet/CatelogServiceTest
+/Infrastructure/Azure/.terraform/
+/Infrastructure/Azure/terraform.tfstate
+/Infrastructure/Azure/terraform.tfstate.backup
