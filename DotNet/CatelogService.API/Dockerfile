@@ -20,6 +20,8 @@ RUN dotnet build CatelogService.API.csproj -c Release -o /app
 FROM build AS publish
 RUN dotnet publish CatelogService.API.csproj -c Release -o /app
 
+#adding comments to understand what is happening
+
 FROM base AS final
 WORKDIR /app
 #ENV ASPNETCORE_URLS http://+83
