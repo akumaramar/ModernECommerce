@@ -51,13 +51,13 @@ namespace CatelogService.API
             //services.AddSingleton<IProductRepository, GenFuProductRepository>();
 
             // Create Database
-            using (ProductRepository repo = new ProductRepository())
-            {
-                repo.Database.EnsureCreated();
-            }
+            //using (ProductRepository repo = new ProductRepository())
+            //{
+            //    repo.Database.EnsureCreated();
+            //}
 
-            services.AddSingleton<IProductRepository, ProductRepository>();
-            //services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+            //services.AddSingleton<IProductRepository, ProductRepository>();
+            services.AddSingleton<IProductRepository, InMemoryProductRepository>();
 
             // Add Health Check
             services.AddHealthChecks();
