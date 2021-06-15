@@ -7,7 +7,7 @@
 # Variables
 #######################################################################
 variable "prefix" {
-  default = "m2mtest"
+  default = "az303"
 }
 
 variable "location" {
@@ -30,42 +30,32 @@ variable "subnet_names" {
   default = ["web-sub", "db-sub"]
 }
 
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=2.46.0"
+    }
+  }
+}
 
 #######################################################################
 # Providers
 #######################################################################
 provider "azurerm" {
   # whilst the `version` attribute is optional, we recommend pinning to a given version of the Provider
-  version = "=2.0.0"
+  # version = "=2.0.0"
   features {}
-  #azure_subscription_id = "dbe576b0-40b0-48d0-a49a-3829258f2d67"
+  #azure_subscription_id = "2af0539f-7104-4c08-8b76-591c4f69bdda"
 }
 
 #######################################################################
 # Resource Group
 #######################################################################
 resource "azurerm_resource_group" "main" {
-  name     = "${var.prefix}-resources"
+  name     = "${var.prefix}-rs"
   location = "West US 2"
 }
-
-#######################################################################
-# Compute
-#######################################################################
-module "windowsservers" {
-  source                        = "Azure/compute/azurerm"
-  resource_group_name           = azurerm_resource_group.main.name
-  vm_hostname                   = "${var.prefix}-web01"
-  is_windows_image              = true
-  admin_username                = "#################"
-  admin_password                = "#################"
-  vm_os_publisher               = "MicrosoftWindowsServer"
-  vm_os_offer                   = "WindowsServer"
-  vm_os_sku                     = "2016-Datacenter"
-  vm_size                       = "Standard_DS1_v2"
-  vnet_subnet_id                = module.vnet-main.vnet_subnets[0]
-}
-
 
 #######################################################################
 # Network
@@ -111,6 +101,7 @@ resource "azurerm_network_security_group" "main-db-nsg" {
   
 }
 
+
 module "vnet-main" {
   source              = "Azure/vnet/azurerm"
   resource_group_name = azurerm_resource_group.main.name
@@ -125,5 +116,28 @@ module "vnet-main" {
   }
 
 }
+/*
+#######################################################################
+# Compute
+#######################################################################
+module "windowsservers" {
+  source                        = "Azure/compute/azurerm"
+  resource_group_name           = azurerm_resource_group.main.name
+  vm_hostname                   = "${var.prefix}-web01"
+  is_windows_image              = true
+  admin_username                = "akumaramar"
+  admin_password                = "RameshPandit17@"
+  vm_os_publisher               = "MicrosoftWindowsServer"
+  vm_os_offer                   = "WindowsServer"
+  vm_os_sku                     = "2016-Datacenter"
+  vm_size                       = "Standard_DS1_v2"
+  vnet_subnet_id                = vnet-main.vnet_subnets[0]
+  
+}
+*/
+
+
+
+
 
 
