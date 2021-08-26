@@ -60,9 +60,9 @@ namespace CatelogService.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public ActionResult<ProductDto> GetById(Guid id)
+        public async Task<ActionResult<ProductDto>> GetById(Guid id)
         {
-            ProductModel productModel = _productBusiness.GetById(id);
+            ProductModel productModel = await _productBusiness.GetByIdAsync(id);
 
             if (productModel == null)
             {
@@ -103,7 +103,7 @@ namespace CatelogService.API.Controllers
         /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(204)]
-        public IActionResult Update(ProductDto productDto)
+        public async Task<ActionResult<ProductDto>> Update(ProductDto productDto)
         {
             if (!ModelState.IsValid)
             {
@@ -112,12 +112,22 @@ namespace CatelogService.API.Controllers
 
             ProductModel productModel = productDto.ToEntity<ProductModel>(_mapper);
 
+            ProductModel productInDB = await _productBusiness.GetByIdAsync(productModel.ID);
+
+            if (productInDB == null)
+            {
+                return NotFound("Product with passed Id not present");
+
+            }
+            productModel = await _productBusiness.UpdateSync(productModel);
+
+            return productModel.ToDto<ProductDto>(_mapper);
+
             // Update Product
-            productModel = _productBusiness.Update(productModel);
+            //productModel = _productBusiness.Update(productModel);
 
             // Nothing to update client.
-            return NoContent(); 
-
+            //return NoContent(); 
         }
 
         /// <summary>
@@ -126,14 +136,14 @@ namespace CatelogService.API.Controllers
         /// <param name="id">Product ID to be deleted.</param>
         /// <returns></returns>
         [HttpDelete]
-        public IActionResult Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             if(_productBusiness.GetById(id) == null)
             {
                 return NotFound();
             }
 
-            _productBusiness.Delete(id);
+            await _productBusiness.DeleteAsync(id);
 
             // Nothing to update to client.
             return NoContent();

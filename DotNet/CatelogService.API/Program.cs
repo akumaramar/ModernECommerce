@@ -32,6 +32,7 @@ namespace CatelogService.API
 
         public static void Main(string[] args)
         {
+            args = new string[1] { "CONSOLEDEBUG" };
 
             if (args != null && args.Length > 0 && args[0] == "CONSOLEDEBUG")
             {

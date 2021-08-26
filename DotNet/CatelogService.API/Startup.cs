@@ -6,9 +6,11 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using CatalogService.Business;
+using CatalogService.DAL.EF;
 using CatelogService.DAL;
 using CatelogService.DAL.FakeDataProvider;
 using CatelogService.DAL.InMemoryForTesting;
+using CatelogService.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +36,9 @@ namespace CatelogService.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSwaggerGen(c =>
@@ -55,9 +60,12 @@ namespace CatelogService.API
             //{
             //    repo.Database.EnsureCreated();
             //}
+            
 
             //services.AddSingleton<IProductRepository, ProductRepository>();
-            services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+            //services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+            //services.AddSingleton<IProductRepository, EFRepositoryBase<ProductModel>>();
+
 
             // Add Health Check
             services.AddHealthChecks();
@@ -70,6 +78,11 @@ namespace CatelogService.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCors(builder => builder
+                 .AllowAnyOrigin()
+                 .AllowAnyMethod()
+                 .AllowAnyHeader());
+
             // Use the Serlilogger
             loggerFactory.AddSerilog();
 

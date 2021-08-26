@@ -38,3 +38,5 @@
 /Infrastructure/Azure/.terraform/
 /Infrastructure/Azure/terraform.tfstate
 /Infrastructure/Azure/terraform.tfstate.backup
+/CatalogService.DAL.EF/bin
+/CatalogService.DAL.EF/obj

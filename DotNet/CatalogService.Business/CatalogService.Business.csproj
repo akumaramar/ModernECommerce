@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CatalogService.DAL.EF\CatalogService.DAL.EF.csproj" />
     <ProjectReference Include="..\CatelogService.DAL\CatelogService.DAL.csproj" />
     <ProjectReference Include="..\CatelogService.Model\CatelogService.Model.csproj" />
   </ItemGroup>

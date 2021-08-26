@@ -109,7 +109,7 @@ module "vnet-main" {
   address_space       = var.vnet_cidr_range
   subnet_prefixes     = var.subnet_prefixes
   subnet_names        = var.subnet_names
-
+  
   nsg_ids = {
     web-sub   = azurerm_network_security_group.main-web-nsg.id
     db-sub    = azurerm_network_security_group.main-db-nsg.id
