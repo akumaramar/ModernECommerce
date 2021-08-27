@@ -12,25 +12,24 @@ namespace CatalogService.DAL.EF
 {
     public class EFRepositoryBase<TEntity> : IRepository<TEntity> where TEntity: EntityBase
     {
+        private BaseDbContext<TEntity> _dbContext;
+
         public EFRepositoryBase()
         {
-            using (var db = new BaseDbContext<TEntity>())
-            {
-                db.Database.EnsureCreated();
-            }
+
+            _dbContext = new BaseDbContext<TEntity>();
+            _dbContext.Database.EnsureCreated();
+
         }
 
         public TEntity Add(TEntity entity)
         {
             entity.ID = Guid.NewGuid();
 
-            using (var db = new BaseDbContext<TEntity>())
-            {
-                UpdateEditLogs(entity);
-                db.Entities.Add(entity);
-                db.SaveChanges();
-            }
-            
+            UpdateEditLogs(entity);
+            _dbContext.Entities.Add(entity);
+            _dbContext.SaveChanges();
+
             return entity;
         }
 
@@ -38,50 +37,42 @@ namespace CatalogService.DAL.EF
         {
             product.ID = Guid.NewGuid();
 
-            using (var db = new BaseDbContext<TEntity>())
-            {
-                UpdateEditLogs(product);
-                db.Entities.Add(product);
-                await db.SaveChangesAsync();
-            }
-
+ 
+            UpdateEditLogs(product);
+            _dbContext.Entities.Add(product);
+            await _dbContext.SaveChangesAsync();
+ 
             return product;
         }
 
         public void Delete(Guid ID)
         {
-            using (var db = new BaseDbContext<TEntity>())
-            {
-                TEntity product = db.Entities.Where(p => p.ID == ID).FirstOrDefault();
+            
+            TEntity product = _dbContext.Entities.Where(p => p.ID == ID).FirstOrDefault();
 
-                if (product != null)
-                {
-                    db.Entities.Remove(product);
-                    db.SaveChanges();
-                }
+            if (product != null)
+            {
+                _dbContext.Entities.Remove(product);
+                _dbContext.SaveChanges();
             }
+            
         }
 
         public async Task DeleteAsync(Guid ID)
         {
-            using (var db = new BaseDbContext<TEntity>())
-            {
-                TEntity product = db.Entities.Where(p => p.ID == ID).FirstOrDefault();
+            TEntity product = _dbContext.Entities.Where(p => p.ID == ID).FirstOrDefault();
 
-                if (product != null)
-                {
-                    db.Entities.Remove(product);
-                    await db.SaveChangesAsync();
-                }
+            if (product != null)
+            {
+                _dbContext.Entities.Remove(product);
+                await _dbContext.SaveChangesAsync();
             }
         }
 
         public TEntity Find(Guid ID)
         {
-            using (var db = new BaseDbContext<TEntity>())
-            {
-                return db.Entities.Where(x => x.ID == ID).FirstOrDefault();
-            }
+            return _dbContext.Entities.Where(x => x.ID == ID).FirstOrDefault();
+            
         }
 
         public async Task<TEntity> FindAsync(Guid ID)
@@ -94,10 +85,8 @@ namespace CatalogService.DAL.EF
 
         public IEnumerable<TEntity> GetAll()
         {
-            using (var db = new BaseDbContext<TEntity>())
-            {
-                return db.Entities.ToList();
-            }
+            return _dbContext.Entities.ToList();
+            
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -110,40 +99,34 @@ namespace CatalogService.DAL.EF
 
         public TEntity Update(TEntity entity)
         {
-            using (var db = new BaseDbContext<TEntity>())
+            TEntity product = _dbContext.Entities.Where(p => p.ID == entity.ID).FirstOrDefault();
+
+            if (product != null)
             {
-                TEntity product = db.Entities.Where(p => p.ID == entity.ID).FirstOrDefault();
-
-                if (product != null)
-                {
-                    //product.Name = entity.Name;
-                    //product.Description = entity.Description;
-                    //product.ImageUrl = entity.ImageUrl;
-                    UpdateEditLogs(product);
-                    db.SaveChanges();
-                }
-
-                return product;
+                //product.Name = entity.Name;
+                //product.Description = entity.Description;
+                //product.ImageUrl = entity.ImageUrl;
+                UpdateEditLogs(product);
+                _dbContext.SaveChanges();
             }
+
+            return product;
         }
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            using (var db = new BaseDbContext<TEntity>())
+            TEntity product = _dbContext.Entities.Where(p => p.ID == entity.ID).FirstOrDefault();
+
+            if (product != null)
             {
-                TEntity product = db.Entities.Where(p => p.ID == entity.ID).FirstOrDefault();
-
-                if (product != null)
-                {
-                    //product.Name = entity.Name;
-                    //product.Description = entity.Description;
-                    //product.ImageUrl = entity.ImageUrl;
-                    //UpdateEditLogs(product);
-                    await db.SaveChangesAsync();
-                }
-
-                return product;
+                //product.Name = entity.Name;
+                //product.Description = entity.Description;
+                //product.ImageUrl = entity.ImageUrl;
+                //UpdateEditLogs(product);
+                await _dbContext.SaveChangesAsync();
             }
+
+            return product;
         }
 
         private void UpdateEditLogs(TEntity product)

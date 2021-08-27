@@ -138,7 +138,7 @@ namespace CatelogService.API.Controllers
         [HttpDelete]
         public async Task<ActionResult> Delete(Guid id)
         {
-            if(_productBusiness.GetById(id) == null)
+            if(await _productBusiness.GetByIdAsync(id) == null)
             {
                 return NotFound();
             }

@@ -101,10 +101,12 @@ namespace CatalogService.Business
                     product.Description = productModel.Description;
                     product.ImageUrl = productModel.ImageUrl;
 
-                    await prodRep.UpdateAsync(product);
+                    return await prodRep.UpdateAsync(product);
                 }
 
-                throw new ApplicationException("No Product with passed ID");
+                return null;
+
+                //throw new ApplicationException("No Product with passed ID");
                 //return await prodRep.UpdateAsync(productModel);
             }
             //return _productRepository.UpdateAsync(productModel);
