@@ -1,6 +1,7 @@
 ﻿using CatelogService.DAL;
 using CatelogService.Model;
 using DAL;
+using Microsoft.EntityFrameworkCore;
 using ModernECommerce.Common.Entity;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,15 @@ namespace CatalogService.DAL.EF
 {
     public class EFRepositoryBase<TEntity> : IRepository<TEntity> where TEntity: EntityBase
     {
-        private BaseDbContext<TEntity> _dbContext;
+        private CatalogServiceDbContext _dbContext;
+        private DbSet<TEntity> _entities;
 
         public EFRepositoryBase()
         {
 
-            _dbContext = new BaseDbContext<TEntity>();
+            _dbContext = new CatalogServiceDbContext();
             _dbContext.Database.EnsureCreated();
+            _entities = _dbContext.Set<TEntity>();
 
         }
 
@@ -27,7 +30,7 @@ namespace CatalogService.DAL.EF
             entity.ID = Guid.NewGuid();
 
             UpdateEditLogs(entity);
-            _dbContext.Entities.Add(entity);
+            _entities.Add(entity);
             _dbContext.SaveChanges();
 
             return entity;
@@ -39,7 +42,7 @@ namespace CatalogService.DAL.EF
 
  
             UpdateEditLogs(product);
-            _dbContext.Entities.Add(product);
+            _entities.Add(product);
             await _dbContext.SaveChangesAsync();
  
             return product;
@@ -48,11 +51,11 @@ namespace CatalogService.DAL.EF
         public void Delete(Guid ID)
         {
             
-            TEntity product = _dbContext.Entities.Where(p => p.ID == ID).FirstOrDefault();
+            TEntity product = _entities.Where(p => p.ID == ID).FirstOrDefault();
 
             if (product != null)
             {
-                _dbContext.Entities.Remove(product);
+                _entities.Remove(product);
                 _dbContext.SaveChanges();
             }
             
@@ -60,18 +63,18 @@ namespace CatalogService.DAL.EF
 
         public async Task DeleteAsync(Guid ID)
         {
-            TEntity product = _dbContext.Entities.Where(p => p.ID == ID).FirstOrDefault();
+            TEntity product = _entities.Where(p => p.ID == ID).FirstOrDefault();
 
             if (product != null)
             {
-                _dbContext.Entities.Remove(product);
+                _entities.Remove(product);
                 await _dbContext.SaveChangesAsync();
             }
         }
 
         public TEntity Find(Guid ID)
         {
-            return _dbContext.Entities.Where(x => x.ID == ID).FirstOrDefault();
+            return _entities.Where(x => x.ID == ID).FirstOrDefault();
             
         }
 
@@ -85,7 +88,7 @@ namespace CatalogService.DAL.EF
 
         public IEnumerable<TEntity> GetAll()
         {
-            return _dbContext.Entities.ToList();
+            return _entities.ToList();
             
         }
 
@@ -99,7 +102,7 @@ namespace CatalogService.DAL.EF
 
         public TEntity Update(TEntity entity)
         {
-            TEntity product = _dbContext.Entities.Where(p => p.ID == entity.ID).FirstOrDefault();
+            TEntity product = _entities.Where(p => p.ID == entity.ID).FirstOrDefault();
 
             if (product != null)
             {
@@ -115,7 +118,7 @@ namespace CatalogService.DAL.EF
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            TEntity product = _dbContext.Entities.Where(p => p.ID == entity.ID).FirstOrDefault();
+            TEntity product = _entities.Where(p => p.ID == entity.ID).FirstOrDefault();
 
             if (product != null)
             {

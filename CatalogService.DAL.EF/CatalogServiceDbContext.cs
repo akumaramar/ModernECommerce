@@ -1,4 +1,5 @@
-﻿using CatelogService.Model;
+﻿using CatalogService.DAL.EFConfig;
+using CatelogService.Model;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ModernECommerce.Common.Entity;
@@ -11,10 +12,9 @@ using System.Threading.Tasks;
 
 namespace CatalogService.DAL.EF
 {
-    public class BaseDbContext<TEntity> : DbContext where TEntity: EntityBase
+    public class CatalogServiceDbContext : DbContext 
     {
-        public DbSet<TEntity> Entities { get; set; }
-
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Configuration.GetConnectionString()
@@ -32,7 +32,9 @@ namespace CatalogService.DAL.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TEntity>().ToTable("Products");
+            // Create instance to load assembly
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductEntityTypeConfiguration).Assembly);
+            //modelBuilder.Entity<TEntity>().ToTable("Products");
         }
     }
 }

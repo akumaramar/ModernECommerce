@@ -40,3 +40,5 @@
 /Infrastructure/Azure/terraform.tfstate.backup
 /CatalogService.DAL.EF/bin
 /CatalogService.DAL.EF/obj
+/CatalogService.DAL.EFConfig/bin/Debug/net5.0
+/CatalogService.DAL.EFConfig/obj

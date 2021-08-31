@@ -17,5 +17,8 @@ namespace CatelogService.Model
 
         public String ImageUrl { get; set; }
 
+        [Required]
+        public ProductTypeModel PType { get; set; }
+    
     }
 }
