@@ -4,21 +4,30 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using DAL;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CatalogService.DAL.EF
 {
     public class UnitOfWork : IUnitOfWork
     {
         private Dictionary<string, Object> repositories = new Dictionary<string, Object>();
+        private IServiceProvider _serviceProvider;
+
+        public UnitOfWork(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
         public IRepository<TEntity> GetRepository<TEntity>() where TEntity : EntityBase
         {
-            Type repType = typeof(EFRepositoryBase<TEntity>);
+            Type repType = typeof(IRepository<TEntity>);
             String repositoryName = repType.FullName;
+
+            
 
             if (!repositories.ContainsKey(repositoryName))
             {
-                var repInstance = Activator.CreateInstance(repType);
+                var repInstance = _serviceProvider.GetRequiredService(repType);
                 repositories.Add(repositoryName, repInstance);
             }
 

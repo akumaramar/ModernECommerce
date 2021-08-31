@@ -11,6 +11,7 @@ using CatelogService.DAL;
 using CatelogService.DAL.FakeDataProvider;
 using CatelogService.DAL.InMemoryForTesting;
 using CatelogService.Model;
+using DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -60,12 +61,15 @@ namespace CatelogService.API
             //{
             //    repo.Database.EnsureCreated();
             //}
-            
+
 
             //services.AddSingleton<IProductRepository, ProductRepository>();
             //services.AddSingleton<IProductRepository, InMemoryProductRepository>();
             //services.AddSingleton<IProductRepository, EFRepositoryBase<ProductModel>>();
 
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            services.AddTransient(typeof(IRepository<>), typeof(EFRepositoryBase<>));
 
             // Add Health Check
             services.AddHealthChecks();

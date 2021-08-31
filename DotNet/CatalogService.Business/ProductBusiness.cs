@@ -2,6 +2,7 @@
 using CatelogService.DAL;
 using CatelogService.Model;
 using DAL;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,17 +13,19 @@ namespace CatalogService.Business
     public class ProductBusiness : IProductBusiness
     {
         private IProductRepository _productRepository;
-        
-        //public ProductBusiness(IProductRepository productRepository)
-        //{
-        //    this._productRepository = productRepository;
-        //}
+        private IServiceProvider _serviceProvider;
+
+        public ProductBusiness(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+
+        }
 
         public IEnumerable<ProductModel> GetAll()
         {
             IEnumerable<ProductModel> products = null;
-
-            using (UnitOfWork uow = new UnitOfWork())
+           
+            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
             {
                 IRepository<ProductModel> prodRep =  uow.GetRepository<ProductModel>();
                 products = prodRep.GetAll();
@@ -54,43 +57,36 @@ namespace CatalogService.Business
 
         public async Task<IEnumerable<ProductModel>> GetAllAsyc()
         {
-            //IEnumerable<ProductModel> products = null;
-
-            using (UnitOfWork uow = new UnitOfWork())
+            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
             {
                 IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
                 return await prodRep.GetAllAsync();
             }
-
-            //return products;
-
-            //return _productRepository.GetAllAsync();
         }
 
         public async Task<ProductModel> AddAsync(ProductModel product)
         {
-            using (UnitOfWork uow = new UnitOfWork())
+            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
             {
                 IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
                 return await prodRep.AddAsync(product);
             }
 
-            //return _productRepository.AddAsync(product);
         }
 
         public async Task<ProductModel> GetByIdAsync(Guid id)
         {
-            using (UnitOfWork uow = new UnitOfWork())
+            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
             {
                 IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
                 return await prodRep.FindAsync(id);
             }
-            //return _productRepository.FindAsync(id);
+
         }
 
         public async Task<ProductModel> UpdateSync(ProductModel productModel)
         {
-            using (UnitOfWork uow = new UnitOfWork())
+            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
             {
                 IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
                 ProductModel product =  await prodRep.FindAsync(productModel.ID);
@@ -106,20 +102,16 @@ namespace CatalogService.Business
 
                 return null;
 
-                //throw new ApplicationException("No Product with passed ID");
-                //return await prodRep.UpdateAsync(productModel);
             }
-            //return _productRepository.UpdateAsync(productModel);
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            using (UnitOfWork uow = new UnitOfWork())
+            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
             {
                 IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
                 await prodRep.DeleteAsync(id);
             }
-            //return _productRepository.DeleteAsync(id);
         }
     }
 }
