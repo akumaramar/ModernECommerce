@@ -11,10 +11,12 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Polly;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using Serilog.Sinks.SystemConsole.Themes;
+using CatalogService.Config;
 
 namespace CatelogService.API
 {
@@ -24,6 +26,7 @@ namespace CatelogService.API
         //TODO: Make it configurable
 #if DEBUG_LOCAL
         private const string ESK_SERVER_URL = "localhost";
+        private const string CONFIG_SERVER_URL = "http://localhost:5120/api/v1/configuration?name=connectionString";
 #else
         private const string ESK_SERVER_URL = "elasticsearch";
 #endif
@@ -99,6 +102,13 @@ namespace CatelogService.API
                 //{
                 //    config.ClearProviders();
                 //})
+                .ConfigureAppConfiguration((builderContext, config) =>
+                {
+                    config.AddMyConfiguration(options =>
+                    {
+                        options.ServiceEndPointURL = "URL";
+                    });
+                })
                 .UseSerilog()
                 .UseStartup<Startup>();
                 
@@ -111,6 +121,20 @@ namespace CatelogService.API
             allDependentService = EnsureLoggingServiceUp();
 
             return allDependentService;
+        }
+
+        private static bool EnsureConfigServiceUp()
+        {
+            bool isConfigServiceUp = false;
+
+            String url = CONFIG_SERVER_URL;
+
+            using (HttpClient client = new HttpClient())
+            {
+
+            }
+
+            return isConfigServiceUp;
         }
 
         private static bool EnsureLoggingServiceUp()

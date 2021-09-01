@@ -2,6 +2,7 @@
 using CatelogService.Model;
 using DAL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ModernECommerce.Common.Entity;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,10 @@ namespace CatalogService.DAL.EF
         private CatalogServiceDbContext _dbContext;
         private DbSet<TEntity> _entities;
 
-        public EFRepositoryBase()
+        public EFRepositoryBase(IConfiguration config)
         {
 
-            _dbContext = new CatalogServiceDbContext();
+            _dbContext = new CatalogServiceDbContext(config);
             _dbContext.Database.EnsureCreated();
             _entities = _dbContext.Set<TEntity>();
 

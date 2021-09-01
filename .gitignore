@@ -42,3 +42,5 @@
 /CatalogService.DAL.EF/obj
 /CatalogService.DAL.EFConfig/bin/Debug/net5.0
 /CatalogService.DAL.EFConfig/obj
+/DotNet/CatalogService.Config/obj
+/DotNet/CatalogService.Config/bin/Debug/net5.0

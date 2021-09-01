@@ -38,6 +38,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CatalogService.DAL.EF\CatalogService.DAL.EF.csproj" />
     <ProjectReference Include="..\CatalogService.Business\CatalogService.Business.csproj" />
+    <ProjectReference Include="..\CatalogService.Config\CatalogService.Config.csproj" />
     <ProjectReference Include="..\CatelogService.DAL\CatelogService.DAL.csproj" />
     <ProjectReference Include="..\CatelogService.DTO\CatelogService.DTO.csproj" />
     <ProjectReference Include="..\CatelogService.Model\CatelogService.Model.csproj" />

@@ -2,6 +2,7 @@
 using CatelogService.Model;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ModernECommerce.Common.Entity;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,13 @@ namespace CatalogService.DAL.EF
 {
     public class CatalogServiceDbContext : DbContext 
     {
+        private const string CONNECTIONSTRING = "ConnectionString";
+        private IConfiguration _config;
+
+        public CatalogServiceDbContext(IConfiguration configRoot)
+        {
+            _config = configRoot;
+        }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -21,13 +29,14 @@ namespace CatalogService.DAL.EF
             //optionsBuilder.UseSqlServer("Data Source=ecomdb-vm.database.windows.net;Initial Catalog=ecomdb;User ID=akumaramar;Password=RameshPandit17@;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             //base.OnConfiguring(optionsBuilder);
 
-            SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder();
-            connectionStringBuilder.DataSource = "APT04-4ZNCLH2";
-            connectionStringBuilder.UserID = "sa";
-            connectionStringBuilder.Password = "Ramesh17@";
-            connectionStringBuilder.InitialCatalog = "catalogdb";
+            //SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder();
+            //connectionStringBuilder.DataSource = "APT04-4ZNCLH2";
+            //connectionStringBuilder.UserID = "sa";
+            //connectionStringBuilder.Password = "Ramesh17@";
+            //connectionStringBuilder.InitialCatalog = "catalogdb";
 
-            optionsBuilder.UseSqlServer(connectionStringBuilder.ConnectionString);
+            //optionsBuilder.UseSqlServer(connectionStringBuilder.ConnectionString);
+            optionsBuilder.UseSqlServer(_config[CONNECTIONSTRING]);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

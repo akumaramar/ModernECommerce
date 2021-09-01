@@ -61,5 +61,5 @@ func main() {
 	api.HandleFunc("", delete).Methods(http.MethodDelete)
 	api.HandleFunc("/configuration", getConfiguration).Methods(http.MethodGet)
 	api.HandleFunc("/", notFound)
-	log.Fatal(http.ListenAndServe(":8087", r))
+	log.Fatal(http.ListenAndServe(":5120", r))
 }
