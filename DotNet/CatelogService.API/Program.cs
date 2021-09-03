@@ -17,6 +17,7 @@ using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using Serilog.Sinks.SystemConsole.Themes;
 using CatalogService.Config;
+using CatalogService.ExternalDep;
 
 namespace CatelogService.API
 {
@@ -107,6 +108,7 @@ namespace CatelogService.API
                     config.AddMyConfiguration(options =>
                     {
                         options.ServiceEndPointURL = "URL";
+                        options.configService = new GoLangConfigService(new HttpClient());
                     });
                 })
                 .UseSerilog()

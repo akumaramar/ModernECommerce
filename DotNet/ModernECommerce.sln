@@ -43,6 +43,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.DAL.EFConfig
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Config", "CatalogService.Config\CatalogService.Config.csproj", "{533A7742-3B6E-4189-B4E9-EBE5930B77F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.ExternalDep", "CatalogService.ExternalDep\CatalogService.ExternalDep.csproj", "{7685EA77-996A-4CD3-8DDF-057AE03ECFE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Common", "CatalogService.Common\CatalogService.Common.csproj", "{8049242B-0BF3-4026-8069-BB450C654C1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +105,14 @@ Global
 		{533A7742-3B6E-4189-B4E9-EBE5930B77F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{533A7742-3B6E-4189-B4E9-EBE5930B77F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{533A7742-3B6E-4189-B4E9-EBE5930B77F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7685EA77-996A-4CD3-8DDF-057AE03ECFE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7685EA77-996A-4CD3-8DDF-057AE03ECFE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7685EA77-996A-4CD3-8DDF-057AE03ECFE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7685EA77-996A-4CD3-8DDF-057AE03ECFE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8049242B-0BF3-4026-8069-BB450C654C1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8049242B-0BF3-4026-8069-BB450C654C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8049242B-0BF3-4026-8069-BB450C654C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8049242B-0BF3-4026-8069-BB450C654C1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +132,8 @@ Global
 		{E10B1571-3723-4FCF-8FB8-64E17FB9F146} = {5F2BEF56-14E0-46A9-9211-839C324C7B63}
 		{9CE728D2-C82E-45FD-B2FB-695B854C9AE3} = {5F2BEF56-14E0-46A9-9211-839C324C7B63}
 		{533A7742-3B6E-4189-B4E9-EBE5930B77F0} = {5F2BEF56-14E0-46A9-9211-839C324C7B63}
+		{7685EA77-996A-4CD3-8DDF-057AE03ECFE3} = {5F2BEF56-14E0-46A9-9211-839C324C7B63}
+		{8049242B-0BF3-4026-8069-BB450C654C1B} = {5F2BEF56-14E0-46A9-9211-839C324C7B63}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BB18F1A-1BCE-4FF8-A9A0-EE34612DC20B}

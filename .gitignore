@@ -44,3 +44,7 @@
 /CatalogService.DAL.EFConfig/obj
 /DotNet/CatalogService.Config/obj
 /DotNet/CatalogService.Config/bin/Debug/net5.0
+/DotNet/CatalogService.Common/bin/Debug/net5.0
+/DotNet/CatalogService.Common/obj
+/DotNet/CatalogService.ExternalDep/bin/Debug/net5.0
+/DotNet/CatalogService.ExternalDep/obj

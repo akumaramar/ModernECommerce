@@ -107,9 +107,6 @@ namespace CatalogService.DAL.EF
 
             if (product != null)
             {
-                //product.Name = entity.Name;
-                //product.Description = entity.Description;
-                //product.ImageUrl = entity.ImageUrl;
                 UpdateEditLogs(product);
                 _dbContext.SaveChanges();
             }
@@ -123,10 +120,6 @@ namespace CatalogService.DAL.EF
 
             if (product != null)
             {
-                //product.Name = entity.Name;
-                //product.Description = entity.Description;
-                //product.ImageUrl = entity.ImageUrl;
-                //UpdateEditLogs(product);
                 await _dbContext.SaveChangesAsync();
             }
 

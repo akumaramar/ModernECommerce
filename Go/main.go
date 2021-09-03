@@ -45,7 +45,7 @@ func getConfiguration(w http.ResponseWriter, r *http.Request) {
 	configName := query.Get("name")
 
 	if configName == "connectionString" {
-		w.Write([]byte(`{"conenctionString": "Data Source=APT04-4ZNCLH2;Initial Catalog=catalogdb;User ID=sa;Password=Ramesh17@"}`))
+		w.Write([]byte(`{"DbConnectionString": "Data Source=APT04-4ZNCLH2;Initial Catalog=catalogdb;User ID=sa;Password=Ramesh17@"}`))
 	} else {
 		w.Write([]byte(`{"message": "No configuration with name"}`))
 	}

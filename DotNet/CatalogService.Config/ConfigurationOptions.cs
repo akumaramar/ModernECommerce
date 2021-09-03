@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CatalogService.ExternalDep;
+using System;
 
 namespace CatalogService.Config
 {
@@ -6,5 +7,6 @@ namespace CatalogService.Config
     {
         public String ServiceEndPointURL { get; set; }
 
+        public IConfigService configService { get; set; }
     }
 }
