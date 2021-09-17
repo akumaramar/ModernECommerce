@@ -66,7 +66,7 @@ namespace CatelogService.API
             //services.AddSingleton<IProductRepository, ProductRepository>();
             //services.AddSingleton<IProductRepository, InMemoryProductRepository>();
             //services.AddSingleton<IProductRepository, EFRepositoryBase<ProductModel>>();
-
+            services.AddDbContext<CatalogServiceDbContext>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient(typeof(IRepository<>), typeof(EFRepositoryBase<>));

@@ -49,6 +49,8 @@ namespace CatelogService.API
                     .CreateLogger();
 
                 Log.Logger.Information("In debug mode");
+
+                EnsureBootDependentServiceUp(CONFIG_SERVER_URL, "Config Service");
             }
             else
             {
@@ -122,18 +124,40 @@ namespace CatelogService.API
             // Check for logging
             allDependentService = EnsureLoggingServiceUp();
 
+            // Check for Configuration service
+            allDependentService = EnsureBootDependentServiceUp(CONFIG_SERVER_URL, "Config Service");
+
             return allDependentService;
         }
 
-        private static bool EnsureConfigServiceUp()
+        private static bool EnsureBootDependentServiceUp(String url, String serviceName)
         {
             bool isConfigServiceUp = false;
 
-            String url = CONFIG_SERVER_URL;
+            //var url = CONFIG_SERVER_URL;
 
             using (HttpClient client = new HttpClient())
             {
+                var retryPolicy = Policy.Handle<Exception>(ex => ex.InnerException.GetType() == typeof(HttpRequestException))
+                    .WaitAndRetry(MAX_ATTEMPT, retryAttempt => TimeSpan.FromMilliseconds(SLEEP_SEC * 1000), (result, timeSpan, retryCount, context) =>
+                      {
+                          Console.WriteLine($"Connecting to {url} Request failed with {result.Message}. Attempt {retryCount}");
+                      });
 
+                Console.WriteLine($"Trying to connect to {serviceName}");
+
+                retryPolicy.Execute(() =>
+                {
+                    //client.GetAsync(url).Result;
+                    using (HttpResponseMessage res = client.GetAsync(url).Result)
+                    {
+                        if (res.IsSuccessStatusCode == true)
+                        {
+                            Console.WriteLine($"Was successful in connecting to {serviceName}");
+                            isConfigServiceUp = true;
+                        }
+                    }
+                });
             }
 
             return isConfigServiceUp;

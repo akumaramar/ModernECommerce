@@ -59,7 +59,9 @@ namespace CatelogService.API.Controllers
         /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+
         public async Task<ActionResult<ProductDto>> GetById(Guid id)
         {
             ProductModel productModel = await _productBusiness.GetByIdAsync(id);

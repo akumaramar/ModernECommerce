@@ -48,3 +48,7 @@
 /DotNet/CatalogService.Common/obj
 /DotNet/CatalogService.ExternalDep/bin/Debug/net5.0
 /DotNet/CatalogService.ExternalDep/obj
+/Go/.vscode
+/Go/config-api.exe
+/Go/__debug_bin.exe
+/Go/main.exe

@@ -17,10 +17,10 @@ namespace CatalogService.DAL.EF
         private CatalogServiceDbContext _dbContext;
         private DbSet<TEntity> _entities;
 
-        public EFRepositoryBase(IConfiguration config)
+        public EFRepositoryBase(IConfiguration config, CatalogServiceDbContext dbContext)
         {
 
-            _dbContext = new CatalogServiceDbContext(config);
+            _dbContext = dbContext; // new CatalogServiceDbContext(config);
             _dbContext.Database.EnsureCreated();
             _entities = _dbContext.Set<TEntity>();
 
