@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using ModernECommerce.Common.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,8 @@ namespace CatalogService.Config
 
         public override void Load()
         {
-            Set("ConnectionString", Source.ConfigService.GetConfigList().Result.DbConnectionString);
-
-            //base.Load();
-            //Set("ConnectionString", "Data Source=APT04-4ZNCLH2;Initial Catalog=catalogdb;User ID=sa;Password=Ramesh17@");            
+            Set(GlobalConstants.CONNECTIONSTRING, Source.ConfigService.GetConfigList().DbConnectionString);
+                        
         }
     }
 }

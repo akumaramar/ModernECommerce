@@ -11,6 +11,8 @@ namespace CatalogService.ExternalDep
 {
     public class GoLangConfigService : IConfigService
     {
+        //private const String URLTOCONNECT = "http://localhost:5120/api/v1/configuration?name=connectionString";
+        private const String URLTOCONNECT = "http://localhost:8889/api/v1/configuration?name=connectionString";
         private readonly HttpClient _httpClient;
         private readonly string _remoteServiceBaseUrl;
 
@@ -19,11 +21,11 @@ namespace CatalogService.ExternalDep
             _httpClient = httpClient;
         }
 
-        public async Task<ConfigToRunApp> GetConfigList()
+        public ConfigToRunApp GetConfigList()
         {
-            var uri = new Uri("http://localhost:5120/api/v1/configuration?name=connectionString");
+            var uri = new Uri(URLTOCONNECT);
 
-            var stringResponse = await _httpClient.GetStringAsync(uri);
+            var stringResponse = _httpClient.GetStringAsync(uri).Result;
 
             return JsonSerializer.Deserialize<ConfigToRunApp>(stringResponse);
 

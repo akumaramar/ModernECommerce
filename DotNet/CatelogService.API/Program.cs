@@ -26,8 +26,8 @@ namespace CatelogService.API
 
         //TODO: Make it configurable
 #if DEBUG_LOCAL
-        private const string ESK_SERVER_URL = "localhost";
-        private const string CONFIG_SERVER_URL = "http://localhost:5120/api/v1/configuration?name=connectionString";
+        private const string ESK_SERVER_URL = "http://localhost:9200";
+        private const string CONFIG_SERVER_URL = "http://localhost:8889/api/v1/configuration?name=connectionString";
 #else
         private const string ESK_SERVER_URL = "elasticsearch";
 #endif
@@ -50,7 +50,7 @@ namespace CatelogService.API
 
                 Log.Logger.Information("In debug mode");
 
-                EnsureBootDependentServiceUp(CONFIG_SERVER_URL, "Config Service");
+                EnsureDependentServicesAreUp();
             }
             else
             {
@@ -122,29 +122,29 @@ namespace CatelogService.API
             bool allDependentService = true;
 
             // Check for logging
-            allDependentService = EnsureLoggingServiceUp();
+            // allDependentService = EnsureBootDependentServiceUp(ESK_SERVER_URL, "Logging Service", MAX_ATTEMPT, SLEEP_SEC);
 
             // Check for Configuration service
-            allDependentService = EnsureBootDependentServiceUp(CONFIG_SERVER_URL, "Config Service");
+            allDependentService = EnsureBootDependentServiceUp(CONFIG_SERVER_URL, "Config Service", MAX_ATTEMPT, SLEEP_SEC);
 
             return allDependentService;
         }
 
-        private static bool EnsureBootDependentServiceUp(String url, String serviceName)
+        private static bool EnsureBootDependentServiceUp(String url, String serviceName, int maxAttampts, int sleepSec)
         {
-            bool isConfigServiceUp = false;
+            bool isServiceUp = false;
 
             //var url = CONFIG_SERVER_URL;
 
             using (HttpClient client = new HttpClient())
             {
                 var retryPolicy = Policy.Handle<Exception>(ex => ex.InnerException.GetType() == typeof(HttpRequestException))
-                    .WaitAndRetry(MAX_ATTEMPT, retryAttempt => TimeSpan.FromMilliseconds(SLEEP_SEC * 1000), (result, timeSpan, retryCount, context) =>
+                    .WaitAndRetry(maxAttampts, retryAttempt => TimeSpan.FromMilliseconds(sleepSec * 1000), (result, timeSpan, retryCount, context) =>
                       {
                           Console.WriteLine($"Connecting to {url} Request failed with {result.Message}. Attempt {retryCount}");
                       });
 
-                Console.WriteLine($"Trying to connect to {serviceName}");
+                Console.WriteLine($"Trying to connect to {serviceName} on this url:{url}");
 
                 retryPolicy.Execute(() =>
                 {
@@ -154,13 +154,13 @@ namespace CatelogService.API
                         if (res.IsSuccessStatusCode == true)
                         {
                             Console.WriteLine($"Was successful in connecting to {serviceName}");
-                            isConfigServiceUp = true;
+                            isServiceUp = true;
                         }
                     }
                 });
             }
 
-            return isConfigServiceUp;
+            return isServiceUp;
         }
 
         private static bool EnsureLoggingServiceUp()

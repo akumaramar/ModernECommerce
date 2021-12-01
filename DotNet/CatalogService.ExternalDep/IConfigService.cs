@@ -9,6 +9,6 @@ namespace CatalogService.ExternalDep
 {
     public interface IConfigService
     {
-        Task<ConfigToRunApp> GetConfigList();
+        ConfigToRunApp GetConfigList();
     }
 }
