@@ -12,47 +12,12 @@ namespace CatalogService.Business
 {
     public class ProductBusiness : IProductBusiness
     {
-        private IProductRepository _productRepository;
         private IServiceProvider _serviceProvider;
 
         public ProductBusiness(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
 
-        }
-
-        public IEnumerable<ProductModel> GetAll()
-        {
-            IEnumerable<ProductModel> products = null;
-           
-            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
-            {
-                IRepository<ProductModel> prodRep =  uow.GetRepository<ProductModel>();
-                products = prodRep.GetAll();
-            }
-
-            return products;
-        }
-
-        public ProductModel Add(ProductModel product)
-        {
-            return _productRepository.Add(product);
-
-        }
-
-        public ProductModel GetById(Guid id)
-        {
-            return _productRepository.Find(id);
-        }
-
-        public ProductModel Update(ProductModel productModel)
-        {
-            return _productRepository.Update(productModel);
-        }
-
-        public void Delete(Guid id)
-        {
-            _productRepository.Delete(id);
         }
 
         public async Task<IEnumerable<ProductModel>> GetAllAsyc()

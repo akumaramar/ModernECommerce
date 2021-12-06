@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace CatelogService.Model
 {
-    public class ProductTypeModel : EntityBase
+    public class CatalogBrand : EntityBase
     {
         [Required]
-        [MaxLength(300)]
-        public String Name { get; set; }
+        [StringLength(300)]
+        public String BrandName { get; set; }
 
-        public String Description { get; set; }
-
-        public String AdditionalInfo { get; set; }
+        public String BrandDescription { get; set; }
     }
 }

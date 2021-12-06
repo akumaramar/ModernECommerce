@@ -19,6 +19,17 @@ namespace CatelogService.Model
 
         [Required]
         public ProductTypeModel PType { get; set; }
-    
+
+        [Required]
+        public CatalogBrand Catalog { get; set; }
+
+        [Required]
+        public int AvailableStocks { get; set; }
+
+
+        public int RestockThreshold { get; set; }
+
+        public int MaxStockThreshold { get; set; }
+
     }
 }
