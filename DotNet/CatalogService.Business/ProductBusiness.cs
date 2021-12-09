@@ -10,73 +10,78 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Business
 {
-    public class ProductBusiness : IProductBusiness
+    public class ProductBusiness : BusinessBase<ProductModel>, IProductBusiness //IProductBusiness
     {
-        private IServiceProvider _serviceProvider;
+        //private IServiceProvider _serviceProvider;
 
-        public ProductBusiness(IServiceProvider serviceProvider)
+        //public ProductBusiness(IServiceProvider serviceProvider)
+        //{
+        //    _serviceProvider = serviceProvider;
+
+        //}
+
+        public ProductBusiness(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            _serviceProvider = serviceProvider;
 
         }
 
-        public async Task<IEnumerable<ProductModel>> GetAllAsyc()
-        {
-            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
-            {
-                IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
-                return await prodRep.GetAllAsync();
-            }
-        }
+        //public async Task<IEnumerable<ProductModel>> GetAllAsyc()
+        //{
+        //    using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
+        //    {
+        //        IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
+        //        return await prodRep.GetAllAsync();
+        //    }
+        //}
 
-        public async Task<ProductModel> AddAsync(ProductModel product)
-        {
-            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
-            {
-                IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
-                return await prodRep.AddAsync(product);
-            }
+        //public async Task<ProductModel> AddAsync(ProductModel product)
+        //{
+        //    using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
+        //    {
+        //        IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
+        //        return await prodRep.AddAsync(product);
+        //    }
 
-        }
+        //}
 
-        public async Task<ProductModel> GetByIdAsync(Guid id)
-        {
-            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
-            {
-                IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
-                return await prodRep.FindAsync(id);
-            }
+        //public async Task<ProductModel> GetByIdAsync(Guid id)
+        //{
+        //    using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
+        //    {
+        //        IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
+        //        return await prodRep.FindAsync(id);
+        //    }
 
-        }
+        //}
 
-        public async Task<ProductModel> UpdateSync(ProductModel productModel)
-        {
-            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
-            {
-                IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
-                ProductModel product =  await prodRep.FindAsync(productModel.ID);
+        //public async Task<ProductModel> UpdateSync(ProductModel productModel)
+        //{
+        //    using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
+        //    {
+        //        IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
+        //        ProductModel product =  await prodRep.FindAsync(productModel.ID);
 
-                if (product != null)
-                {
-                    product.Name = productModel.Name;
-                    product.Description = productModel.Description;
-                    product.ImageUrl = productModel.ImageUrl;
+        //        if (product != null)
+        //        {
+        //            product.Name = productModel.Name;
+        //            product.Description = productModel.Description;
+        //            product.ImageUrl = productModel.ImageUrl;
 
-                    return await prodRep.UpdateAsync(product);
-                }
+        //            return await prodRep.UpdateAsync(product);
+        //        }
 
-                return null;
+        //        return null;
 
-            }
-        }
+        //    }
+        //}
 
-        public async Task DeleteAsync(Guid id)
-        {
-            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
-            {
-                IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
-                await prodRep.DeleteAsync(id);
-            }
-        }
+        //public async Task DeleteAsync(Guid id)
+        //{
+        //    using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
+        //    {
+        //        IRepository<ProductModel> prodRep = uow.GetRepository<ProductModel>();
+        //        await prodRep.DeleteAsync(id);
+        //    }
+        //}
     }
 }

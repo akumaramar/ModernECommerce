@@ -6,16 +6,9 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Business
 {
-    public interface IProductBusiness
+    public interface IProductBusiness : IBusinessService<ProductModel>
     {
-        Task<IEnumerable<ProductModel>> GetAllAsyc();
-
-        Task<ProductModel> AddAsync(ProductModel product);
-
-        Task<ProductModel> GetByIdAsync(Guid id);
-
-        Task<ProductModel> UpdateSync(ProductModel productModel);
-
-        Task DeleteAsync(Guid id);
+       //TODO: Need to see what can be added here
+       // We can add something which is specific to Product Business apart from base supported items
     }
 }
