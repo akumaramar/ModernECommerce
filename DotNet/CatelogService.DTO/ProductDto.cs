@@ -21,9 +21,9 @@ namespace CatelogService.DTO
         public int AvailableStocks { get; set; }
 
 
-        public Guid CatalogID { get; set; }
+        //public Guid CatalogID { get; set; }
 
-        public Guid ProductTypeID { get; set; }
+        //public Guid ProductTypeID { get; set; }
 
         public int RestockThreshold { get; set; }
 

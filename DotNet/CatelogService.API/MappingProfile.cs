@@ -24,15 +24,25 @@ namespace CatelogService.API
 
         public MappingProfile()
         {
-            CreateMap<ProductModel, ProductDto>()
-                .ForMember(dest => dest.AvailableStocks, opt => opt.MapFrom(src => src.ID));
-            //CreateMap<ProductDto, ProductModel>()
+            // Product Model mapping 
+            CreateMap<ProductModel, ProductDto>();
+                //.ForMember(dest => dest.AvailableStocks, opt => opt.MapFrom(src => src.ID));
+            CreateMap<ProductDto, ProductModel>();
             //    .ForMember<;
+
+            // Product Catalog mapping
+            CreateMap<ProductTypeModel, ProductTypeDto>();
+            CreateMap<ProductTypeDto, ProductTypeModel>();
+
+            // Product Type mapping
+            CreateMap<CatalogBrandModel, CatalogBrandDto>();
+            CreateMap<CatalogBrandDto, CatalogBrandModel>();
+
         }
         
     }
 
-    public class CatelogIDToCatalogConverter : ITypeConverter<Guid, CatalogBrand>
+    public class CatelogIDToCatalogConverter : ITypeConverter<Guid, CatalogBrandModel>
     {
         private IServiceProvider _serviceProvider;
 
@@ -40,16 +50,16 @@ namespace CatelogService.API
         {
             this._serviceProvider = serviceProvider;
         }
-        public CatalogBrand Convert(Guid source, CatalogBrand destination, ResolutionContext context)
+        public CatalogBrandModel Convert(Guid source, CatalogBrandModel destination, ResolutionContext context)
         {
-            CatalogBrand catalogBrand;
+            CatalogBrandModel catalogBrand = null;
 
-            using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
-            {
-                IRepository<CatalogBrand> catalogBrandRep = uow.GetRepository<CatalogBrand>();
+            //using (IUnitOfWork uow = _serviceProvider.GetService<IUnitOfWork>())
+            //{
+            //    IRepository<CatalogBrandModel> catalogBrandRep = uow.GetRepository<CatalogBrandModel>();
 
-                catalogBrand = catalogBrandRep.Find(source);
-            }
+            //    catalogBrand = catalogBrandRep.Find(source);
+            //}
 
             return catalogBrand;
         }

@@ -17,11 +17,11 @@ namespace CatelogService.Model
 
         public String ImageUrl { get; set; }
 
-        [Required]
-        public ProductTypeModel PType { get; set; }
+        //[Required]
+        //public ProductTypeModel PType { get; set; }
 
-        [Required]
-        public CatalogBrand Catalog { get; set; }
+        //[Required]
+        //public CatalogBrand Catalog { get; set; }
 
         [Required]
         public int AvailableStocks { get; set; }

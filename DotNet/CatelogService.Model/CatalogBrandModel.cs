@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CatelogService.Model
 {
-    public class CatalogBrand : EntityBase
+    public class CatalogBrandModel : EntityBase
     {
         [Required]
         [StringLength(300)]

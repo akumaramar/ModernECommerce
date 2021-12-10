@@ -56,6 +56,11 @@ namespace CatelogService.API
             services.AddTransient<IProductBusiness, ProductBusiness>();
             //services.AddSingleton<IProductRepository, GenFuProductRepository>();
 
+            // Sample reporsitories for testing
+            services.AddTransient(typeof(IRepository<ProductModel>), typeof(GenFuProductRepository));
+            services.AddTransient(typeof(IRepository<CatalogBrandModel>), typeof(GenFuCatalogBrandRepository));
+            services.AddTransient(typeof(IRepository<ProductTypeModel>), typeof(GenFuProductTypeRepository));
+
             // Create Database
             //using (ProductRepository repo = new ProductRepository())
             //{
@@ -69,7 +74,8 @@ namespace CatelogService.API
             services.AddDbContext<CatalogServiceDbContext>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddTransient(typeof(IRepository<>), typeof(EFRepositoryBase<>));
+            // Repository to connect to DB
+            //services.AddTransient(typeof(IRepository<>), typeof(EFRepositoryBase<>));
 
             // Add Health Check
             services.AddHealthChecks();

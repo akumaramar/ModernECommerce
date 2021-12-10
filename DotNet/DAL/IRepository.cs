@@ -9,23 +9,23 @@ namespace DAL
 {
     public interface IRepository<T> where T : EntityBase
     {
-        IEnumerable<T> GetAll();
+        //IEnumerable<T> GetAll();
 
         Task<IEnumerable<T>> GetAllAsync();
 
-        T Add(T entity);
+        //T Add(T entity);
 
         Task<T> AddAsync(T product);
 
-        T Update(T entity);
+        //T Update(T entity);
 
         Task<T> UpdateAsync(T entity);
 
-        T Find(Guid ID);
+        //T Find(Guid ID);
 
         Task<T> FindAsync(Guid ID);
 
-        void Delete(Guid ID);
+        //void Delete(Guid ID);
 
         Task DeleteAsync(Guid ID);
 
