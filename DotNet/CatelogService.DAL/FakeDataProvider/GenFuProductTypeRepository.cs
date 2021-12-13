@@ -18,6 +18,8 @@ namespace CatelogService.DAL.FakeDataProvider
                 .Fill(p => p.Name).AsLoremIpsumWords()
                 .Fill(p => p.Description).AsLoremIpsumSentences()
                 .Fill(p => p.ID, () => { return new Guid(); });
+
+            _catalongBrand = A.ListOf<ProductTypeModel>();
         }
 
         public Task<ProductTypeModel> AddAsync(ProductTypeModel product)
@@ -35,9 +37,12 @@ namespace CatelogService.DAL.FakeDataProvider
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ProductTypeModel>> GetAllAsync()
+        public async Task<IEnumerable<ProductTypeModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task<IEnumerable<CatalogBrandModel>>.Run(() =>
+            {
+                return _catalongBrand.FindAll(e => e.MarkDeleted == false && e.MarkDeleted == false); ;
+            });
         }
 
         public Task<ProductTypeModel> UpdateAsync(ProductTypeModel entity)

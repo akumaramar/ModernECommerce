@@ -64,6 +64,11 @@ namespace CatelogService.API.Controllers
 
         public async Task<ActionResult<ProductDto>> GetById(Guid id)
         {
+            if (id == Guid.Empty)
+            {
+                return BadRequest("Id must be passed to get the specific Product model");
+            }
+
             ProductModel productModel = await _productBusiness.GetByIdAsync(id);
 
             if (productModel == null)
@@ -81,6 +86,7 @@ namespace CatelogService.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ProductDto>> Create(ProductDto productDto)
         {
             if (!ModelState.IsValid)
@@ -104,7 +110,8 @@ namespace CatelogService.API.Controllers
         /// <param name="productDto">The product to be updated.</param>
         /// <returns></returns>
         [HttpPut]
-        [ProducesResponseType(204)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ProductDto>> Update(ProductDto productDto)
         {
             if (!ModelState.IsValid)

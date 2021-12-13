@@ -18,6 +18,8 @@ namespace CatelogService.DAL.FakeDataProvider
                 .Fill(p => p.BrandName).AsMusicArtistName()
                 .Fill(p => p.BrandDescription).AsMusicGenreDescription()
                 .Fill(p => p.ID, () => { return new Guid(); });
+
+            _catalongBrand = A.ListOf<CatalogBrandModel>();
         }
 
         public Task<CatalogBrandModel> AddAsync(CatalogBrandModel product)

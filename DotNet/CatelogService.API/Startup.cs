@@ -54,6 +54,9 @@ namespace CatelogService.API
 
             // Set Product Dependencies
             services.AddTransient<IProductBusiness, ProductBusiness>();
+            services.AddTransient<IProductTypeBusiness, ProductTypeBusiness>();
+            services.AddTransient<ICatalogBrandBusiness, CatalogBrandBusiness>();
+
             //services.AddSingleton<IProductRepository, GenFuProductRepository>();
 
             // Sample reporsitories for testing

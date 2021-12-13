@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Business
 {
-    public interface ICatalogBrandService : IBusinessService<CatalogBrandModel>
+    public interface ICatalogBrandBusiness : IBusinessService<CatalogBrandModel>
     {
         //TODO: Need to see what can be added here
         // We can add something which is specific to Product Business apart from base supported items

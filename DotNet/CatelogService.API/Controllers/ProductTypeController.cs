@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using CatalogService.Business;
+using CatelogService.DTO;
+using CatelogService.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,36 +18,105 @@ namespace CatelogService.API.Controllers
     [ApiController]
     public class ProductTypeController : ControllerBase
     {
+        IProductTypeBusiness _productTypeBusiness;
+        ILogger<ProductTypeController> _logger;
+        IMapper _mapper;
+
+        public ProductTypeController(IMapper mapper, ILogger<ProductTypeController> logger, IProductTypeBusiness productTypeBusiness)
+        {
+            _mapper = mapper;
+            _logger = logger;
+            _productTypeBusiness = productTypeBusiness;
+
+        }
+
         // GET: api/<ProductTypeController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<ProductTypeDto>>> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<ProductTypeModel> productTypeModels = await _productTypeBusiness.GetAllAsyc();
+
+            return Ok(productTypeModels.ToDtoEnumerable<ProductTypeDto>(_mapper));
         }
 
         // GET api/<ProductTypeController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<ProductTypeDto>> GetById(Guid id)
         {
-            return "value";
+            if (id == Guid.Empty)
+            {
+                return BadRequest("Id must be passed to get the specific Product Type Model");
+            }
+
+            ProductTypeModel productTypeModel = await _productTypeBusiness.GetByIdAsync(id);
+
+            return Ok(productTypeModel.ToDto<ProductTypeDto>(_mapper));
         }
 
         // POST api/<ProductTypeController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<ProductTypeDto>> Post([FromBody] ProductTypeDto productTypeDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ProductTypeModel productTypeModel = productTypeDto.ToEntity<ProductTypeModel>(_mapper);
+
+            // Add Product Catalog
+            productTypeModel = await _productTypeBusiness.AddAsync(productTypeModel);
+
+            // Send the the created object to client
+            return CreatedAtAction(nameof(GetById), new { id = productTypeModel.ID }, productTypeModel.ToDto<ProductTypeDto>(_mapper));
         }
 
         // PUT api/<ProductTypeController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<ProductTypeDto>> Put([FromBody] ProductTypeDto productTypeDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ProductTypeModel productTypeModelInDb = await _productTypeBusiness.GetByIdAsync(productTypeDto.ID);
+
+            if (productTypeModelInDb == null)
+            {
+                return NotFound("There is no Product Type with this name");
+            }
+            ProductTypeModel productTypeUpdated = productTypeDto.ToEntity<ProductTypeModel>(_mapper);
+
+            productTypeUpdated = await _productTypeBusiness.UpdateSync(productTypeUpdated);
+
+            return productTypeUpdated.ToDto<ProductTypeDto>(_mapper);
         }
 
         // DELETE api/<ProductTypeController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> Delete(Guid id)
         {
+            if (await _productTypeBusiness.GetByIdAsync(id) == null)
+            {
+                return NotFound();
+            }
+
+            await _productTypeBusiness.DeleteAsync(id);
+
+            // Nothing to update to client.
+            return NoContent();
         }
     }
 }
