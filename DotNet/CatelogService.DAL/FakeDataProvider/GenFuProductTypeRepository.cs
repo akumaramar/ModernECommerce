@@ -22,19 +22,36 @@ namespace CatelogService.DAL.FakeDataProvider
             _catalongBrand = A.ListOf<ProductTypeModel>();
         }
 
-        public Task<ProductTypeModel> AddAsync(ProductTypeModel product)
+        public async Task<ProductTypeModel> AddAsync(ProductTypeModel product)
         {
-            throw new NotImplementedException();
+            product.ID = Guid.NewGuid();
+
+            _catalongBrand.Add(product);
+
+            return await Task<CatalogBrandModel>.Run(() => {
+                return product;
+            });
         }
 
-        public Task DeleteAsync(Guid ID)
+        public async Task DeleteAsync(Guid ID)
         {
-            throw new NotImplementedException();
+            await Task.Run(() =>
+            {
+                ProductTypeModel product = FindAsync(ID).Result;
+
+                if (product != null)
+                {
+                    product.MarkDeleted = true;
+                }
+            });
         }
 
-        public Task<ProductTypeModel> FindAsync(Guid ID)
+        public async Task<ProductTypeModel> FindAsync(Guid ID)
         {
-            throw new NotImplementedException();
+            return await Task<CatalogBrandModel>.Run(() =>
+            {
+                return _catalongBrand.FirstOrDefault(e => e.ID == ID && e.MarkDeleted == false);
+            });
         }
 
         public async Task<IEnumerable<ProductTypeModel>> GetAllAsync()
@@ -45,9 +62,16 @@ namespace CatelogService.DAL.FakeDataProvider
             });
         }
 
-        public Task<ProductTypeModel> UpdateAsync(ProductTypeModel entity)
+        public async Task<ProductTypeModel> UpdateAsync(ProductTypeModel entity)
         {
-            throw new NotImplementedException();
+            return await Task<ProductTypeModel>.Run(() =>
+            {
+                ProductTypeModel product = FindAsync(entity.ID).Result;
+                product.Name = entity.Name;
+                product.Description = entity.Description;
+                product.AdditionalInfo = entity.AdditionalInfo;
+                return product;
+            });
         }
     }
 }

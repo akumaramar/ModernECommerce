@@ -54,7 +54,16 @@ namespace CatelogService.API.Controllers
 
             ProductTypeModel productTypeModel = await _productTypeBusiness.GetByIdAsync(id);
 
-            return Ok(productTypeModel.ToDto<ProductTypeDto>(_mapper));
+            if (productTypeModel != null)
+            {
+                return Ok(productTypeModel.ToDto<ProductTypeDto>(_mapper));
+            }
+            else
+            {
+                return NotFound("The ProductType with this ID is not found");
+            }
+
+            
         }
 
         // POST api/<ProductTypeController>

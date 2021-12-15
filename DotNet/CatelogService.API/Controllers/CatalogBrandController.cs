@@ -56,7 +56,14 @@ namespace CatelogService.API.Controllers
 
             CatalogBrandModel catalogBrandModel = await _catalogBrandBusiness.GetByIdAsync(id);
 
-            return Ok(catalogBrandModel.ToDto<CatalogBrandDto>(_mapper));
+            if (catalogBrandModel != null)
+            {
+                return Ok(catalogBrandModel.ToDto<CatalogBrandDto>(_mapper));
+            }
+            else
+            {
+                return NotFound("Product type with this id not found");
+            }
 
         }
 

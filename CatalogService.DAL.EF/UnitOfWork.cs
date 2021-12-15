@@ -36,7 +36,8 @@ namespace CatalogService.DAL.EF
 
         public void Save()
         {
-            throw new NotImplementedException();
+            //TODO: Need to implement this and how to handle this
+            // throw new NotImplementedException();
         }
 
         public void Dispose()

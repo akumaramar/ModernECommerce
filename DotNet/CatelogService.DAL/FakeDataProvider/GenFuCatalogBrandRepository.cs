@@ -22,19 +22,37 @@ namespace CatelogService.DAL.FakeDataProvider
             _catalongBrand = A.ListOf<CatalogBrandModel>();
         }
 
-        public Task<CatalogBrandModel> AddAsync(CatalogBrandModel product)
+        public async Task<CatalogBrandModel> AddAsync(CatalogBrandModel product)
         {
-            throw new NotImplementedException();
+            product.ID = Guid.NewGuid();
+
+            _catalongBrand.Add(product);
+
+            return await Task<CatalogBrandModel>.Run(() => {
+                return product;
+            });
+
         }
 
-        public Task DeleteAsync(Guid ID)
+        public async Task DeleteAsync(Guid ID)
         {
-            throw new NotImplementedException();
+            await Task.Run(() =>
+            {
+                CatalogBrandModel product = FindAsync(ID).Result;
+
+                if (product != null)
+                {
+                    product.MarkDeleted = true;
+                }
+            });
         }
 
-        public Task<CatalogBrandModel> FindAsync(Guid ID)
+        public async Task<CatalogBrandModel> FindAsync(Guid ID)
         {
-            throw new NotImplementedException();
+            return await Task<CatalogBrandModel>.Run(() =>
+            {
+                return _catalongBrand.FirstOrDefault(e => e.ID == ID && e.MarkDeleted == false);
+            });
         }
 
         public async Task<IEnumerable<CatalogBrandModel>> GetAllAsync()
@@ -45,9 +63,15 @@ namespace CatelogService.DAL.FakeDataProvider
             });
         }
 
-        public Task<CatalogBrandModel> UpdateAsync(CatalogBrandModel entity)
+        public async Task<CatalogBrandModel> UpdateAsync(CatalogBrandModel entity)
         {
-            throw new NotImplementedException();
+            return await Task<CatalogBrandModel>.Run(() =>
+            {
+                CatalogBrandModel product = FindAsync(entity.ID).Result;
+                product.BrandName = entity.BrandName;
+                product.BrandDescription = entity.BrandDescription;
+                return product;
+            });
         }
     }
 }
