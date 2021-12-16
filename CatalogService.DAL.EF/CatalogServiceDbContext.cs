@@ -8,6 +8,7 @@ using ModernECommerce.Common.Entity;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,12 @@ namespace CatalogService.DAL.EF
     public class CatalogServiceDbContext : DbContext 
     {
         private IConfiguration _config;
+
+
+        public CatalogServiceDbContext([NotNullAttribute] DbContextOptions options, bool dummy): base(options)
+        {
+
+        }
 
         public CatalogServiceDbContext(IConfiguration configRoot)
         {
@@ -30,6 +37,7 @@ namespace CatalogService.DAL.EF
             //base.OnConfiguring(optionsBuilder);
 
             //optionsBuilder.UseSqlServer(connectionStringBuilder.ConnectionString);
+            // TODO: Remove after use
             optionsBuilder.UseSqlServer(_config[GlobalConstants.CONNECTIONSTRING]);
         }
 

@@ -60,9 +60,9 @@ namespace CatelogService.API
             //services.AddSingleton<IProductRepository, GenFuProductRepository>();
 
             // Sample reporsitories for testing
-            services.AddSingleton(typeof(IRepository<ProductModel>), typeof(GenFuProductRepository));
-            services.AddSingleton(typeof(IRepository<CatalogBrandModel>), typeof(GenFuCatalogBrandRepository));
-            services.AddSingleton(typeof(IRepository<ProductTypeModel>), typeof(GenFuProductTypeRepository));
+            //services.AddSingleton(typeof(IRepository<ProductModel>), typeof(GenFuProductRepository));
+            //services.AddSingleton(typeof(IRepository<CatalogBrandModel>), typeof(GenFuCatalogBrandRepository));
+            //services.AddSingleton(typeof(IRepository<ProductTypeModel>), typeof(GenFuProductTypeRepository));
 
             // Create Database
             //using (ProductRepository repo = new ProductRepository())
@@ -78,7 +78,7 @@ namespace CatelogService.API
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             // Repository to connect to DB
-            //services.AddTransient(typeof(IRepository<>), typeof(EFRepositoryBase<>));
+            services.AddTransient(typeof(IRepository<>), typeof(EFRepositoryBase<>));
 
             // Add Health Check
             services.AddHealthChecks();
