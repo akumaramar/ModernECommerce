@@ -4,14 +4,16 @@ using CatalogService.DAL.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CatalogService.DAL.EF.Migrations
 {
     [DbContext(typeof(CatalogServiceDbContext))]
-    partial class CatalogServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220303050814_AddProductTypeModel")]
+    partial class AddProductTypeModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

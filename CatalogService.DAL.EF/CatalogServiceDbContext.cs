@@ -32,11 +32,23 @@ namespace CatalogService.DAL.EF
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //Configuration.GetConnectionString()
-            //optionsBuilder.UseSqlServer("Data Source=ecomdb-vm.database.windows.net;Initial Catalog=ecomdb;User ID=akumaramar;Password=RameshPandit17@;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            //base.OnConfiguring(optionsBuilder);
-
+            // TODO: Use below line to generate DB
+            //SqlConnectionStringBuilder sqlConnection = new SqlConnectionStringBuilder();
+            //sqlConnection.DataSource = "APT04-4ZNCLH2";
+            //sqlConnection.UserID = "sa";
+            //sqlConnection.Password = "Ramesh17@";
+            //sqlConnection.InitialCatalog = "catalogdb";
+            //Configuration.GetConnectionString().
             //optionsBuilder.UseSqlServer(connectionStringBuilder.ConnectionString);
+
+
+            // Need to run as it will required for Database updrades.
+            //optionsBuilder.UseSqlServer()
+            //optionsBuilder.UseSqlServer("Data Source=ecomdb-vm.database.windows.net;Initial Catalog=ecomdb;User ID=akumaramar;Password=RameshPandit17@;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            //optionsBuilder.UseSqlServer(sqlConnection.ToString());
+            base.OnConfiguring(optionsBuilder);
+
+
             // TODO: Remove after use
             optionsBuilder.UseSqlServer(_config[GlobalConstants.CONNECTIONSTRING]);
         }
