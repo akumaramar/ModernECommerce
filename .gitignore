@@ -52,3 +52,8 @@
 /Go/config-api.exe
 /Go/__debug_bin.exe
 /Go/main.exe
+/DotNet/CatalogService.DAL.EF/bin
+/DotNet/CatalogService.DAL.EF/obj/Debug/net5.0
+/DotNet/CatalogService.DAL.EF/obj
+/DotNet/CatalogService.DAL.EFConfig/bin/Debug/net5.0
+/DotNet/CatalogService.DAL.EFConfig/obj

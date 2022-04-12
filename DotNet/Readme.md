@@ -15,3 +15,19 @@ optionsBuilder.UseSqlServer(_config[GlobalConstants.CONNECTIONSTRING]);
 5. Run update-database -verbose to update database
 
 
+# Steps to create image in docker
+
+1. Set your working directory as below
+
+ModernECommerce\DotNet
+
+2. Run below command to build the image
+
+docker build -t catalogservice -f .\CatelogService.API\Dockerfile .
+
+-t : Tag the name will appear as
+
+-f : Docker file details
+
+. : The docker will be running under the same context
+

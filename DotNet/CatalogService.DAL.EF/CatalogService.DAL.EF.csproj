@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CatalogService.DAL.EFConfig\CatalogService.DAL.EFConfig.csproj" />
-    <ProjectReference Include="..\DotNet\CatelogService.DAL\CatelogService.DAL.csproj" />
+    <ProjectReference Include="..\CatelogService.DAL\CatelogService.DAL.csproj" />
   </ItemGroup>
 
 </Project>

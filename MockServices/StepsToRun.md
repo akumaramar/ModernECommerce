@@ -5,5 +5,5 @@ https://mockintosh.io/
 mockintosh example.yaml
 
 Service would be up on below URL
-localhost:8001:
+ http://localhost:8889
 

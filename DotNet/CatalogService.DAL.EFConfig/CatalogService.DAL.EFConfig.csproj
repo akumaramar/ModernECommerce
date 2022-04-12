@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DotNet\CatelogService.Model\CatelogService.Model.csproj" />
+    <ProjectReference Include="..\CatelogService.Model\CatelogService.Model.csproj" />
   </ItemGroup>
 
 </Project>
