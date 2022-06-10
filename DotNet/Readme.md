@@ -31,3 +31,8 @@ docker build -t catalogservice -f .\CatelogService.API\Dockerfile .
 
 . : The docker will be running under the same context
 
+# Steps to run the docker image
+
+docker run -p 8081:80 --name catelogServiceAPI catalogservice
+docker run -p 8081:80 --add-host=host.docker.internal:host-gateway --name catelogServiceAPI catalogservice
+docker run -p 8081:80 --add-host=host.docker.internal:host-gateway --name catelogServiceAPI catalogservice

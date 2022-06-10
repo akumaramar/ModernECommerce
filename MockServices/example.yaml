@@ -10,7 +10,24 @@ services: # config requires at least one service to be configured
 
       # test with: curl -v http://localhost:8888/api/myURLParamValue123/action
       - path: /api/v1/configuration?name=connectionString #{{param}}/action  # Handlebars expressions can be part of request URL
-        response: '{"DbConnectionString": "Data Source=APT04-4ZNCLH2;Initial Catalog=catalogdb;User ID=sa;Password=Ramesh17@"}'  # and can be referenced in response
+        response: '{"DbConnectionString": "Data Source=host.docker.internal,1433;Initial Catalog=catalogdb;User ID=sa;Password=Ramesh17@"}'  # and can be referenced in response
+
+
+      # the below example only works for complex request, tested like below:
+      # curl -v "http://localhost:8888/someMoreFields?qName1=qValue&qName2=12345" \
+      #   -X POST -H"X-Required-Header: someval" --data "payload"
+      - path: /products
+        comment: Endpoint to grab all the products in the list
+        method: GET
+        
+        response:
+          status: 202
+          body: '@/products.json'
+          headers:
+            x-response-header: "{{random.uuid4}}"  # a selection of random/dynamic functions is available
+            x-query-string-value: "{{request.queryString.qName2}}"  # request parts can be referenced in response
+
+
 
       # the below example only works for complex request, tested like below:
       # curl -v "http://localhost:8888/someMoreFields?qName1=qValue&qName2=12345" \

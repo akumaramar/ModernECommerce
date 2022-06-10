@@ -11,8 +11,8 @@ namespace CatalogService.ExternalDep
 {
     public class GoLangConfigService : IConfigService
     {
-        //private const String URLTOCONNECT = "http://localhost:5120/api/v1/configuration?name=connectionString";
-        private const String URLTOCONNECT = "http://localhost:8889/api/v1/configuration?name=connectionString";
+        private const String URLTOCONNECT = "http://host.docker.internal:8889/api/v1/configuration?name=connectionString";
+        //private const String URLTOCONNECT = "http://localhost:8889/api/v1/configuration?name=connectionString";
         private readonly HttpClient _httpClient;
         private readonly string _remoteServiceBaseUrl;
 
