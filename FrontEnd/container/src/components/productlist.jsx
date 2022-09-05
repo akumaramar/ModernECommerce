@@ -1,6 +1,6 @@
 import React from "react";
 import { getAllProducts } from "../services/ProductService";
-import ProductCard from "./productcard";
+import ProductCard from "./productcard.jsx";
 
 const products = [
     {

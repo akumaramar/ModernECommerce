@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./header";
+import Header from "./header.jsx";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
 const Layout = () => {
