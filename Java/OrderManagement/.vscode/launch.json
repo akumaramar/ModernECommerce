@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-chrome",
+            "type": "java",
+            "name": "Launch OrderApp",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:8083",
-            "webRoot": "${workspaceFolder}"
+            "mainClass": "modern.app.orderapi.OrderApp",
+            "projectName": "order-api"
         }
     ]
 }

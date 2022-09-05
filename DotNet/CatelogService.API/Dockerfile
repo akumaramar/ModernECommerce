@@ -1,11 +1,11 @@
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 
 
 # Copy the requird project to same place
 #FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY CatelogService.API/CatelogService.API.csproj CatelogService.API/
 COPY CatelogService.Model/CatelogService.Model.csproj CatelogService.Model/
