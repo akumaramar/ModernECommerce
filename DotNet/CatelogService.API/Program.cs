@@ -27,8 +27,8 @@ namespace CatelogService.API
         //TODO: Make it configurable
 #if DEBUG_LOCAL
         private const string ESK_SERVER_URL = "http://localhost:9200";
-        //private const string CONFIG_SERVER_URL = "http://localhost:8889/api/v1/configuration?name=connectionString";
-        private const string CONFIG_SERVER_URL = "http://host.docker.internal:8889/api/v1/configuration?name=connectionString";
+        private const string CONFIG_SERVER_URL = "http://localhost:8889/api/v1/configuration?name=connectionString";
+        //private const string CONFIG_SERVER_URL = "http://host.docker.internal:8889/api/v1/configuration?name=connectionString";
 #else
         private const string ESK_SERVER_URL = "elasticsearch";
 #endif

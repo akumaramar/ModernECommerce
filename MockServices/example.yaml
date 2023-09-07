@@ -10,7 +10,7 @@ services: # config requires at least one service to be configured
 
       # test with: curl -v http://localhost:8888/api/myURLParamValue123/action
       - path: /api/v1/configuration?name=connectionString #{{param}}/action  # Handlebars expressions can be part of request URL
-        response: '{"DbConnectionString": "Data Source=host.docker.internal,1433;Initial Catalog=catalogdb;User ID=sa;Password=XXXXXX"}'  # and can be referenced in response
+        response: '{"DbConnectionString": "Data Source=localhost;Initial Catalog=catalogdb;User ID=sa;Password=Ramesh17@"}'  # and can be referenced in response
 
 
       # the below example only works for complex request, tested like below:

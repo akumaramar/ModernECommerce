@@ -14,7 +14,7 @@ namespace CatalogService.DAL.EF
         public CatalogServiceDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<CatalogServiceDbContext>();
-            optionsBuilder.UseSqlServer(@"Data Source=host.docker.internal;Initial Catalog=catalogdb;User ID=sa;Password=Ramesh17@");
+            optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=catalogdb;User ID=sa;Password=Ramesh17@");
 
             return new CatalogServiceDbContext(optionsBuilder.Options, true);
         }
